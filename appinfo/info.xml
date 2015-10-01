@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<info>
+    <id>sketch</id>
+    <name>Sketch</name>
+    <description>My first ownCloud app</description>
+    <licence>AGPL</licence>
+    <author>Christoph Wurst</author>
+    <version>0.0.1</version>
+    <namespace>Sketch</namespace>
+    <category>other</category>
+    <dependencies>
+        <owncloud min-version="8.1" />
+    </dependencies>
+</info>
