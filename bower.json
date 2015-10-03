@@ -1,0 +1,27 @@
+{
+  "name": "sketch",
+  "version": "0.0.1",
+  "authors": [
+    "Christoph Wurst <christoph@winzerhof-wurst.at>"
+  ],
+  "description": "ownCloud sketching app",
+  "moduleType": [
+    "amd"
+  ],
+  "license": "AGPLv3",
+  "homepage": "https://github.com/ChristophWurst/sketch",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "js/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "backbone": "~1.2.3",
+    "backbone.marionette": "~2.4.3",
+    "requirejs": "~2.1.20",
+    "underscore": "~1.8.3"
+  }
+}

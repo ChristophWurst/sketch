@@ -1,6 +1,18 @@
 <?php
-script('sketch', 'script');
+
+/**
+ * ownCloud - Sketch
+ *
+ * This file is licensed under the Affero General Public License version 3 or
+ * later. See the COPYING file.
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @copyright Christoph Wurst 2015
+ */
+script('sketch', 'vendor/requirejs/require');
+script('sketch', 'require_config');
 style('sketch', 'style');
+
 ?>
 
 <div id="app">
@@ -10,8 +22,15 @@ style('sketch', 'style');
 	</div>
 
 	<div id="app-content">
-		<div id="app-content-wrapper">
-			<?php print_unescaped($this->inc('part.content')); ?>
-		</div>
+		<div id="app-content-wrapper"></div>
 	</div>
 </div>
+
+<script id="sketch-list-item-template" type="text/html">
+	<a href="#"><%= title %></a>
+</script>
+<script id="sketch-canvas-template" type="text/html">
+	<canvas id="sketch-canvas" width="400" height="400">
+		<p>Your browser doesn't support canvas.</p>
+	</canvas>
+</script>
