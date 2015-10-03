@@ -13,6 +13,7 @@ define(function(require) {
 
 	var Marionette = require('marionette');
 	var _ = require('underscore');
+	var $ = require('jquery');
 
 	return Marionette.ItemView.extend({
 		template: '#sketch-canvas-template',
@@ -49,9 +50,24 @@ define(function(require) {
 			this.canvas = null;
 			this.path = [];
 			this.drawing = false;
+
+			// Listen to window resize
+			this.resizeHandler = _.bind(this.adjustCanvasSize, this);
+			$(window).on('resize', this.resizeHandler);
+		},
+		onDestroy: function() {
+			$(window).off('resize', this.resizeHandler);
 		},
 		onRender: function() {
 			this.canvas = this.ui.canvas[0].getContext('2d');
+			this.adjustCanvasSize();
+		},
+		adjustCanvasSize: function() {
+			this.canvas.canvas.width = 1;
+			this.canvas.canvas.height = 1;
+
+			this.canvas.canvas.width = this.$el.innerWidth();
+			this.canvas.canvas.height = this.$el.innerHeight();
 		},
 		addLineToPath: function(e) {
 			this.path.push({
