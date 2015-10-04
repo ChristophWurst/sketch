@@ -29,6 +29,7 @@ define(function(require) {
 		startLine: function(e) {
 			e.stopPropagation();
 			this.drawing = true;
+			this.path.length = 0;
 			this.position = this.getCurrentMousePosition(e);
 		},
 		drawLine: function(e) {
@@ -43,7 +44,6 @@ define(function(require) {
 			if (this.drawing) {
 				this.drawing = false;
 				this.addLineToPath(e);
-				this.path.length = 0;
 			}
 		},
 		initialize: function() {
@@ -68,6 +68,8 @@ define(function(require) {
 
 			this.canvas.canvas.width = this.$el.innerWidth();
 			this.canvas.canvas.height = this.$el.innerHeight();
+
+			this.draw();
 		},
 		addLineToPath: function(e) {
 			this.path.push({
@@ -83,12 +85,10 @@ define(function(require) {
 			};
 		},
 		draw: function() {
-			var context = this.canvas;
-			context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-
-			context.strokeStyle = "#1D2D44";
-			context.lineJoin = "round";
-			context.lineWidth = 1;
+			this.canvas.clearRect(0, 0, this.canvas.canvas.width, this.canvas.canvas.height);
+			this.canvas.strokeStyle = "#1D2D44";
+			this.canvas.lineJoin = "round";
+			this.canvas.lineWidth = 1;
 
 			var that = this;
 			_.each(this.path, function(line) {
