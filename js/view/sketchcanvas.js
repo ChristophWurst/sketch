@@ -89,16 +89,16 @@ define(function(require) {
 			canvas.lineWidth = 1;
 
 			var prev = null;
+			canvas.beginPath();
 			this.line.each(function(point) {
 				if (prev !== null) {
-					canvas.beginPath();
 					canvas.moveTo(prev.get('x'), prev.get('y'));
 					canvas.lineTo(point.get('x'), point.get('y'));
-					canvas.closePath();
-					canvas.stroke();
 				}
 				prev = point;
 			});
+			canvas.closePath();
+			canvas.stroke();
 		}
 	});
 });
