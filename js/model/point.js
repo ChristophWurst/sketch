@@ -11,10 +11,12 @@
 define(function(require) {
 	'use strict';
 
-	var Marionette = require('marionette');
+	var Backbone = require('backbone');
 
-	var Application = Marionette.Application.extend({
+	return Backbone.Model.extend({
+		defaults: {
+			x: 0,
+			y: 0
+		}
 	});
-
-	return new Application();
 });

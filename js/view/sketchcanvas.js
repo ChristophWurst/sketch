@@ -14,6 +14,7 @@ define(function(require) {
 	var Marionette = require('marionette');
 	var _ = require('underscore');
 	var $ = require('jquery');
+	var Line = require('model/line');
 
 	return Marionette.ItemView.extend({
 		template: '#sketch-canvas-template',
@@ -29,8 +30,8 @@ define(function(require) {
 		startLine: function(e) {
 			e.stopPropagation();
 			this.drawing = true;
-			this.path.length = 0;
-			this.position = this.getCurrentMousePosition(e);
+			this.line = new Line();
+			this.line.add(this.getCurrentMousePosition(e));
 		},
 		drawLine: function(e) {
 			e.stopPropagation();
@@ -48,7 +49,7 @@ define(function(require) {
 		},
 		initialize: function() {
 			this.canvas = null;
-			this.path = [];
+			this.line = new Line();
 			this.drawing = false;
 
 			// Listen to window resize
@@ -72,11 +73,7 @@ define(function(require) {
 			this.draw();
 		},
 		addLineToPath: function(e) {
-			this.path.push({
-				from: this.position,
-				to: this.getCurrentMousePosition(e)
-			});
-			this.position = this.getCurrentMousePosition(e);
+			this.line.push(this.getCurrentMousePosition(e));
 		},
 		getCurrentMousePosition: function(e) {
 			return {
@@ -85,18 +82,22 @@ define(function(require) {
 			};
 		},
 		draw: function() {
-			this.canvas.clearRect(0, 0, this.canvas.canvas.width, this.canvas.canvas.height);
-			this.canvas.strokeStyle = "#1D2D44";
-			this.canvas.lineJoin = "round";
-			this.canvas.lineWidth = 1;
+			var canvas = this.canvas;
+			canvas.clearRect(0, 0, canvas.canvas.width, canvas.canvas.height);
+			canvas.strokeStyle = "#1D2D44";
+			canvas.lineJoin = "round";
+			canvas.lineWidth = 1;
 
-			var that = this;
-			_.each(this.path, function(line) {
-				that.canvas.beginPath();
-				that.canvas.moveTo(line.from.x, line.from.y);
-				that.canvas.lineTo(line.to.x, line.to.y);
-				that.canvas.closePath();
-				that.canvas.stroke();
+			var prev = null;
+			this.line.each(function(point) {
+				if (prev !== null) {
+					canvas.beginPath();
+					canvas.moveTo(prev.get('x'), prev.get('y'));
+					canvas.lineTo(point.get('x'), point.get('y'));
+					canvas.closePath();
+					canvas.stroke();
+				}
+				prev = point;
 			});
 		}
 	});

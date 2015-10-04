@@ -3,3 +3,7 @@
 	max-height: 100%;
 	overflow: hidden;
 }
+
+#sketch-canvas {
+	cursor: crosshair;
+}

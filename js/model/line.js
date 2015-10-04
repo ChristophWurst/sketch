@@ -11,10 +11,10 @@
 define(function(require) {
 	'use strict';
 
-	var Marionette = require('marionette');
+	var Backbone = require('backbone');
+	var Point = require('model/point');
 
-	var Application = Marionette.Application.extend({
+	return Backbone.Collection.extend({
+		model: Point
 	});
-
-	return new Application();
 });
