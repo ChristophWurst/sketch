@@ -30,7 +30,9 @@ style('sketch', 'style');
 	<a href="#"><%= title %></a>
 </script>
 <script id="sketch-canvas-template" type="text/html">
-	<canvas id="sketch-canvas" width="100" height="100">
+	<canvas id="sketch-background" width="100" height="100">
 		<p>Your browser doesn't support canvas.</p>
+	</canvas>
+	<canvas id="sketch-canvas" width="100" height="100">
 	</canvas>
 </script>

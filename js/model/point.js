@@ -13,10 +13,19 @@ define(function(require) {
 
 	var Backbone = require('backbone');
 
-	return Backbone.Model.extend({
+	var Point = Backbone.Model.extend({
 		defaults: {
 			x: 0,
 			y: 0
 		}
 	});
+
+	var PointCollection = Backbone.Collection.extend({
+		model: Point
+	});
+
+	return {
+		Model: Point,
+		Collection: PointCollection
+	};
 });

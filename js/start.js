@@ -12,6 +12,7 @@ define(function(require) {
 	'use strict';
 
 	var app = require('app');
+	var Sketch = require('model/sketch').Model;
 	var SketchCollection = require('model/sketch').Collection;
 	var SketchList = require('view/sketchlist');
 	var SketchCanvas = require('view/sketchcanvas');
@@ -25,7 +26,8 @@ define(function(require) {
 		});
 
 		app.canvas = new SketchCanvas({
-			el: '#app-content-wrapper'
+			el: '#app-content-wrapper',
+			sketch: new Sketch()
 		});
 		app.canvas.render();
 

@@ -14,11 +14,12 @@ define(function(require) {
 	var Marionette = require('marionette');
 	var _ = require('underscore');
 	var $ = require('jquery');
-	var Line = require('model/line');
+	var Line = require('model/line').Model;
 
 	return Marionette.ItemView.extend({
 		template: '#sketch-canvas-template',
 		ui: {
+			'background': '#sketch-background',
 			'canvas': '#sketch-canvas'
 		},
 		events: {
@@ -31,23 +32,32 @@ define(function(require) {
 			e.stopPropagation();
 			this.drawing = true;
 			this.line = new Line();
-			this.line.add(this.getCurrentMousePosition(e));
+			this.line.addPoint(this.getCurrentMousePosition(e));
 		},
 		drawLine: function(e) {
 			e.stopPropagation();
 			if (this.drawing) {
-				this.addLineToPath(e);
-				this.draw();
+				this.line.addPoint(this.getCurrentMousePosition(e));
+				this.clearCanvas(this.canvas);
+				this.drawLineOnCanvas(this.line, this.canvas);
 			}
 		},
 		finishLine: function(e) {
 			e.stopPropagation();
 			if (this.drawing) {
 				this.drawing = false;
-				this.addLineToPath(e);
+				this.sketch.get('lines').push(this.line);
+
+				// Remove it from foreground and draw it to background
+				// canvas
+				this.clearCanvas(this.canvas);
+				this.drawLineOnCanvas(this.line, this.background);
 			}
 		},
-		initialize: function() {
+		initialize: function(options) {
+			this.sketch = options.sketch;
+
+			this.background = null;
 			this.canvas = null;
 			this.line = new Line();
 			this.drawing = false;
@@ -60,20 +70,23 @@ define(function(require) {
 			$(window).off('resize', this.resizeHandler);
 		},
 		onRender: function() {
+			this.background = this.ui.background[0].getContext('2d');
 			this.canvas = this.ui.canvas[0].getContext('2d');
 			this.adjustCanvasSize();
 		},
 		adjustCanvasSize: function() {
-			this.canvas.canvas.width = 1;
-			this.canvas.canvas.height = 1;
+			var that = this;
+			_.each([this.background, this.canvas], function(canvas) {
+				canvas.canvas.width = 1;
+				canvas.canvas.height = 1;
 
-			this.canvas.canvas.width = this.$el.innerWidth();
-			this.canvas.canvas.height = this.$el.innerHeight();
+				canvas.canvas.width = that.$el.innerWidth();
+				canvas.canvas.height = that.$el.innerHeight();
+			});
 
-			this.draw();
-		},
-		addLineToPath: function(e) {
-			this.line.push(this.getCurrentMousePosition(e));
+			this.reDrawBackground();
+			this.clearCanvas(this.canvas);
+			this.drawLineOnCanvas(this.line, this.canvas);
 		},
 		getCurrentMousePosition: function(e) {
 			return {
@@ -81,16 +94,21 @@ define(function(require) {
 				y: e.pageY - this.ui.canvas.offset().top
 			};
 		},
-		draw: function() {
-			var canvas = this.canvas;
-			canvas.clearRect(0, 0, canvas.canvas.width, canvas.canvas.height);
+		reDrawBackground: function() {
+			this.clearCanvas(this.background);
+			var that = this;
+			this.sketch.get('lines').each(function(line) {
+				that.drawLineOnCanvas(line, that.background);
+			});
+		},
+		drawLineOnCanvas: function(line, canvas) {
 			canvas.strokeStyle = "#1D2D44";
 			canvas.lineJoin = "round";
 			canvas.lineWidth = 1;
 
 			var prev = null;
 			canvas.beginPath();
-			this.line.each(function(point) {
+			line.get('points').each(function(point) {
 				if (prev !== null) {
 					canvas.moveTo(prev.get('x'), prev.get('y'));
 					canvas.lineTo(point.get('x'), point.get('y'));
@@ -99,6 +117,9 @@ define(function(require) {
 			});
 			canvas.closePath();
 			canvas.stroke();
+		},
+		clearCanvas: function(canvas) {
+			canvas.clearRect(0, 0, canvas.canvas.width, canvas.canvas.height);
 		}
 	});
 });

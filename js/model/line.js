@@ -12,9 +12,29 @@ define(function(require) {
 	'use strict';
 
 	var Backbone = require('backbone');
-	var Point = require('model/point');
+	var PointCollection = require('model/point').Collection;
 
-	return Backbone.Collection.extend({
-		model: Point
+	var Line = Backbone.Model.extend({
+		defaults: {
+			points: null
+		},
+		initialize: function() {
+			this.set('points', new PointCollection());
+		},
+		addPoint: function(point) {
+			this.get('points').push(point);
+		},
+		reset: function() {
+			this.get('points').reset();
+		}
 	});
+
+	var LineCollection = Backbone.Collection.extend({
+		model: Line
+	});
+
+	return {
+		Model: Line,
+		Collection: LineCollection
+	};
 });

@@ -13,11 +13,13 @@ define(function(require) {
 
 	var Backbone = require('backbone');
 	var OC = require('OC');
+	var LineCollection = require('model/line').Collection;
 
 	var SketchModel = Backbone.Model.extend({
 		defaults: {
-			id: null,
-			title: ''
+			id: Math.random(),
+			title: '',
+			lines: new LineCollection()
 		}
 	});
 
