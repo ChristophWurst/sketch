@@ -1,7 +1,5 @@
 <?php
 
-namespace OCA\Sketch\Controller;
-
 /**
  * ownCloud - sketch
  *
@@ -11,32 +9,47 @@ namespace OCA\Sketch\Controller;
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @copyright Christoph Wurst 2015
  */
-use OCP\IRequest;
+
+namespace OCA\Sketch\Controller;
+
+use Exception;
 use OCP\AppFramework\Controller;
-use OCA\Sketch\Service\SketchService;
+use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http;
+use OCP\IRequest;
+use OCA\Sketch\Db\Sketch;
+use OCA\Sketch\Db\SketchMapper;
 
 class sketchcontroller extends Controller {
 
 	/**
 	 * @var SketchService
 	 */
-	private $sketchService;
+	private $mapper;
+
+	/**
+	 * @var string
+	 */
+	private $userId;
 
 	/**
 	 * @param string $AppName
 	 * @param IRequest $request
-	 * @param SketchService $service
+	 * @param SketchMapper $mapper
+	 * @param string $UserId
 	 */
-	public function __construct($AppName, IRequest $request, SketchService $service) {
+	public function __construct($AppName, IRequest $request, SketchMapper $mapper,
+		$UserId) {
 		parent::__construct($AppName, $request);
-		$this->sketchService = $service;
+		$this->mapper = $mapper;
+		$this->userId = $UserId;
 	}
 
 	/**
 	 * @NoAdminRequired
 	 */
 	public function index() {
-		return $this->sketchService->findAll();
+		return new DataResponse($this->mapper->findAll($this->userId));
 	}
 
 	/**
@@ -45,7 +58,11 @@ class sketchcontroller extends Controller {
 	 * @param string $id
 	 */
 	public function show($id) {
-		return $this->sketchService->find($id);
+		try {
+			return new DataResponse($this->mapper->find($id, $this->userId));
+		} catch (Exception $e) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
 	}
 
 	/**
@@ -54,8 +71,11 @@ class sketchcontroller extends Controller {
 	 * @param string $title
 	 * @param json $content
 	 */
-	public function create($title, $content) {
-		return $this->sketchService->create($title, $content);
+	public function create($title) {
+		$sketch = new Sketch();
+		$sketch->setTitle($title);
+		$sketch->setUserId($this->userId);
+		return new DataResponse($this->mapper->insert($sketch));
 	}
 
 	/**
@@ -65,8 +85,14 @@ class sketchcontroller extends Controller {
 	 * @param string $title
 	 * @param json $content
 	 */
-	public function update($id, $title, $content) {
-		return $this->sketchService->update($id, $title, $content);
+	public function update($id, $title) {
+		try {
+			$sketch = $this->mapper->find($id, $this->userId);
+		} catch (Exception $ex) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+		$sketch->setTitle($title);
+		return new DataResponse($this->mapper->update($entity));
 	}
 
 	/**
@@ -75,7 +101,13 @@ class sketchcontroller extends Controller {
 	 * @param string $id
 	 */
 	public function destroy($id) {
-		return $this->sketchService->delete($id);
+		try {
+			$sketch = $this->mapper->find($id, $this->userId);
+		} catch (Exception $ex) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+		$this->mapper->delete($sketch);
+		return new DataResponse($sketch);
 	}
 
 }

@@ -15,6 +15,7 @@ define(function(require) {
 	var Marionette = require('marionette');
 
 	return Marionette.ItemView.extend({
+		tagName: 'li',
 		template: $('#sketch-list-item-template')
 	});
 });
