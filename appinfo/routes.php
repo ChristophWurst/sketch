@@ -15,5 +15,6 @@ return [
 	],
 	'resources' => [
 		'sketch' => ['url' => '/sketches'],
+		'line' => ['url' => '/lines'],
 	]
 ];
