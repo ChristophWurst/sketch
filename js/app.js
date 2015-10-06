@@ -14,7 +14,16 @@ define(function(require) {
 	var Marionette = require('marionette');
 
 	var Application = Marionette.Application.extend({
+		Service: {}
 	});
 
-	return new Application();
+	var app = new Application();
+
+	/**
+	 * Set up services and register event handlers
+	 */
+	app.Service.LineService = require('service/lineservice');
+	app.on('line:add', app.Service.LineService.create);
+
+	return app;
 });

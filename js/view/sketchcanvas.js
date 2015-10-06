@@ -48,10 +48,12 @@ define(function(require) {
 				this.drawing = false;
 				this.sketch.get('lines').push(this.line);
 
-				// Remove it from foreground and draw it to background
-				// canvas
+				// Remove it from foreground and draw it to the
+				// background canvas
 				this.clearCanvas(this.canvas);
 				this.drawLineOnCanvas(this.line, this.background);
+
+				require('app').trigger('line:add', this.line);
 			}
 		},
 		initialize: function(options) {

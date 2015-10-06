@@ -12,6 +12,7 @@ define(function(require) {
 	'use strict';
 
 	var Backbone = require('backbone');
+	var OC = require('OC');
 	var PointCollection = require('model/point').Collection;
 
 	var Line = Backbone.Model.extend({
@@ -30,7 +31,8 @@ define(function(require) {
 	});
 
 	var LineCollection = Backbone.Collection.extend({
-		model: Line
+		model: Line,
+		url: OC.generateUrl('apps/sketch/lines')
 	});
 
 	return {
