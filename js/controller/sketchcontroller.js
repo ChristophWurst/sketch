@@ -28,6 +28,7 @@ define(function(require) {
 			collection: app.sketches,
 			el: '#sketch-list'
 		});
+		app.sketchList.render();
 
 		var fetchingSketches = app.sketches.fetch();
 

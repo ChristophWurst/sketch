@@ -18,7 +18,7 @@ define(function(require) {
 		tagName: 'ul',
 		childView: SketchView,
 		initialize: function() {
-			this.listenTo(this.collection, 'add', this.render);
+			this.listenTo(this.collection, 'sync', this.render);
 		}
 	});
 });
