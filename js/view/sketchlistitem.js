@@ -16,15 +16,26 @@ define(function(require) {
 	return Marionette.ItemView.extend({
 		tagName: 'li',
 		active: false,
+		menuOpened: false,
 		template: '#sketch-list-item-template',
+		templateHelpers: function() {
+			var that = this;
+			return {
+				menuOpened: function() {
+					return that.menuOpened;
+				}
+			}
+		},
 		events: {
-			'click': 'onClick'
+			'click': 'onClick',
+			'click .app-navigation-entry-utils-menu-button': 'onMenu',
+			'click .delete-sketch': 'onDelete'
 		},
 		initialize: function() {
-			require('app').on('sketch:active', this.setActive, this);
+			this.listenTo(require('app'), 'sketch:active', this.setActive);
 		},
 		onBeforeDestroy: function() {
-			require('app').off('sketch:active', this.setActive);
+			this.stopListening();
 		},
 		setActive: function(activeId) {
 			if (activeId === this.model.get('id')) {
@@ -36,8 +47,18 @@ define(function(require) {
 		onClick: function(e) {
 			e.stopPropagation();
 			e.preventDefault();
-			console.log('click');
 			require('app').trigger('sketch:show', this.model.get('id'));
+		},
+		onMenu: function(e) {
+			e.stopPropagation();
+			e.preventDefault();
+			this.menuOpened = !this.menuOpened;
+			this.render();
+		},
+		onDelete: function(e) {
+			e.stopPropagation();
+			e.preventDefault();
+			require('app').trigger('sketch:delete', this.model.get('id'));
 		}
 	});
 });

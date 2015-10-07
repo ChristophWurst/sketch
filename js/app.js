@@ -29,6 +29,7 @@ define(function(require) {
 	 * Set up controller events
 	 */
 	app.on('sketch:show', app.Controller.SketchController.show);
+	app.on('sketch:delete', app.Controller.SketchController.destroy);
 
 	/**
 	 * Set up services events

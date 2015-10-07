@@ -28,6 +28,21 @@ style('sketch', 'style');
 
 <script id="sketch-list-item-template" type="text/html">
 	<a href="#"><%= title %></a>
+	<div class="app-navigation-entry-utils">
+		<ul>
+			<li class="app-navigation-entry-utils-menu-button">
+				<button title="<?php p($l->t('Menu')); ?>"></button>
+			</li>
+		</ul>
+	</div>
+	<div class="app-navigation-entry-menu <%= menuOpened() ? 'open' : '' %>">
+		<ul>
+			<li>
+				<button class="icon-delete delete-sketch"
+					title="<?php p($l->t('Delete sketch')); ?>"></button>
+			</li>
+		</ul>
+	</div>
 </script>
 <script id="sketch-canvas-template" type="text/html">
 	<canvas id="sketch-background" width="100" height="100">

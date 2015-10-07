@@ -36,4 +36,4 @@ define(function(require) {
 		Model: SketchModel,
 		Collection: SketchCollection
 	};
-})
+});

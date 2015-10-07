@@ -55,8 +55,19 @@ define(function(require) {
 		app.trigger('sketch:active', id);
 	}
 
+	function destroy(id) {
+		var sketches = require('app').sketches;
+		var sketch = sketches.get(id);
+		sketch.destroy();
+
+		if (sketches.length > 0) {
+			show(sketches.at(0).get('id'));
+		}
+	}
+
 	return {
 		loadAll: loadAll,
-		show: show
+		show: show,
+		destroy: destroy
 	};
 });
