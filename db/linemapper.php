@@ -14,7 +14,6 @@ namespace OCA\Sketch\Db;
 
 use OCP\IDb;
 use OCP\AppFramework\Db\Mapper;
-use OCA\Sketch\Db\Line;
 
 class LineMapper extends Mapper {
 
@@ -28,22 +27,23 @@ class LineMapper extends Mapper {
 	/**
 	 * @param type $id
 	 * @param type $userId
-	 * @return type
+	 * @return Line
 	 */
 	public function find($sketchId, $id, $userId) {
+		// TODO: check user id (join sketch)
 		$sql = 'SELECT * FROM *PREFIX*sketch_lines WHERE sketch_id = ?'
-			. ' AND id = ? AND user_id = ?';
-		return $this->findEntity($sql, [$sketchId, $id, $userId]);
+			. ' AND id = ?';
+		return $this->findEntity($sql, [$sketchId, $id]);
 	}
 
 	/**
 	 * @param type $userId
-	 * @return type
+	 * @return Line[]
 	 */
 	public function findAll($sketchId, $userId) {
-		$sql = 'SELECT * FROM *PREFIX*sketch_lines WHERE sketch_id = ?'
-			. ' AND user_id = ?';
-		return $this->findEntities($sql, [$sketchId, $userId]);
+		// TODO: check user id (join sketch)
+		$sql = 'SELECT * FROM *PREFIX*sketch_lines WHERE sketch_id = ?';
+		return $this->findEntities($sql, [$sketchId]);
 	}
 
 }

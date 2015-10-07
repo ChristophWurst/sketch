@@ -19,13 +19,20 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCA\Sketch\Db\Line;
 use OCA\Sketch\Db\LineMapper;
+use OCA\Sketch\Db\Point;
+use OCA\Sketch\Db\PointMapper;
 
 class LineController extends Controller {
 
 	/**
 	 * @var LineMapper
 	 */
-	private $mapper;
+	private $lineMapper;
+
+	/**
+	 * @var PointMapper
+	 */
+	private $pointMapper;
 
 	/**
 	 * @var string
@@ -38,10 +45,11 @@ class LineController extends Controller {
 	 * @param LineMapper $mapper
 	 * @param string $UserId
 	 */
-	public function __construct($AppName, IRequest $request, LineMapper $mapper,
-		$UserId) {
+	public function __construct($AppName, IRequest $request,
+		LineMapper $lineMapper, PointMapper $pointMapper, $UserId) {
 		parent::__construct($AppName, $request);
-		$this->mapper = $mapper;
+		$this->lineMapper = $lineMapper;
+		$this->pointMapper = $pointMapper;
 		$this->userId = $UserId;
 	}
 
@@ -52,7 +60,7 @@ class LineController extends Controller {
 	 * @return DataResponse
 	 */
 	public function index($sketchId) {
-		return new DataResponse($this->mapper->findAll($sketchId, $this->userId));
+		return new DataResponse($this->lineMapper->findAll($sketchId, $this->userId));
 	}
 
 	/**
@@ -64,7 +72,7 @@ class LineController extends Controller {
 	 */
 	public function show($sketchId, $id) {
 		try {
-			return new DataResponse($this->mapper->find($sketchId, $id, $this->userId));
+			return new DataResponse($this->lineMapper->find($sketchId, $id, $this->userId));
 		} catch (Exception $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
@@ -76,11 +84,18 @@ class LineController extends Controller {
 	 * @param int $sketchId
 	 * @return DataResponse
 	 */
-	public function create($sketchId) {
+	public function create($sketchId, $points) {
 		$line = new Line();
 		$line->setSketchId($sketchId);
-		$line->setUserId($this->userId);
-		return new DataResponse($this->mapper->insert($line));
+		$result = $this->lineMapper->insert($line);
+		foreach ($points as $point) {
+			$p = new Point();
+			$p->setLineId($result->getId());
+			$p->setX($point['x']);
+			$p->setY($point['y']);
+			$this->pointMapper->insert($p);
+		}
+		return new DataResponse($result);
 	}
 
 	/**
@@ -101,11 +116,11 @@ class LineController extends Controller {
 	 */
 	public function destroy($sketchId, $id) {
 		try {
-			$line = $this->mapper->find($sketchId, $id, $this->userId);
+			$line = $this->lineMapper->find($sketchId, $id, $this->userId);
 		} catch (Exception $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
-		$this->mapper->delete($line);
+		$this->lineMapper->delete($line);
 		return new DataResponse($line);
 	}
 

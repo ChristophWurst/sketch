@@ -43,7 +43,7 @@ define(function(require) {
 		var app = require('app');
 
 		require('app').View.get('content').show(new SketchCanvas({
-			sketch: new Sketch()
+			sketch: app.sketches.get(id)
 		}));
 
 		app.trigger('sketch:active', id);

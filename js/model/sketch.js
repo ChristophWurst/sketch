@@ -21,7 +21,9 @@ define(function(require) {
 			lines: null
 		},
 		initialize: function() {
-			this.set('lines', new LineCollection());
+			this.set('lines', new LineCollection({
+				sketchId: this.get('id')
+			}));
 		}
 	});
 

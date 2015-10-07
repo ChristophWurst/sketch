@@ -15,17 +15,16 @@ namespace OCA\Sketch\Db;
 use JsonSerializable;
 use OCP\AppFramework\Db\Entity;
 
-class Line extends Entity implements JsonSerializable {
+class Point extends Entity implements JsonSerializable {
 
-	protected $sketchId;
+	protected $lineId;
+	protected $x;
+	protected $y;
 
-	/**
-	 * @return array
-	 */
 	public function jsonSerialize() {
 		return [
-			'id' => $this->getId(),
-			'sketchId' => $this->getSketchId(),
+			'x' => $this->getX(),
+			'y' => $this->getY(),
 		];
 	}
 

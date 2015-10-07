@@ -50,12 +50,40 @@
 				<unsigned>true</unsigned>
 				<length>8</length>
 			</field>
+		</declaration>
+	</table>
+	<table>
+		<name>*dbprefix*sketch_points</name>
+		<declaration>
 			<field>
-				<name>user_id</name>
-				<type>text</type>
-				<length>200</length>
-				<default></default>
+				<name>id</name>
+				<type>integer</type>
 				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<autoincrement>true</autoincrement>
+				<primary>true</primary>
+				<length>8</length>
+			</field>
+			<field>
+				<name>line_id</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>8</length>
+			</field>
+			<field>
+				<name>x</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>8</length>
+			</field>
+			<field>
+				<name>y</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>8</length>
 			</field>
 		</declaration>
 	</table>
