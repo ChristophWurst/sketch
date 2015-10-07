@@ -11,11 +11,33 @@
 define(function(require) {
 	'use strict';
 
-	var $ = require('jquery');
 	var Marionette = require('marionette');
 
 	return Marionette.ItemView.extend({
 		tagName: 'li',
-		template: $('#sketch-list-item-template')
+		active: false,
+		template: '#sketch-list-item-template',
+		events: {
+			'click': 'onClick'
+		},
+		initialize: function() {
+			require('app').on('sketch:active', this.setActive, this);
+		},
+		onBeforeDestroy: function() {
+			require('app').off('sketch:active', this.setActive);
+		},
+		setActive: function(activeId) {
+			if (activeId === this.model.get('id')) {
+				this.$el.addClass('active');
+			} else {
+				this.$el.removeClass('active');
+			}
+		},
+		onClick: function(e) {
+			e.stopPropagation();
+			e.preventDefault();
+			console.log('click');
+			require('app').trigger('sketch:show', this.model.get('id'));
+		}
 	});
 });

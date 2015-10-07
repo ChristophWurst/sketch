@@ -17,9 +17,11 @@ define(function(require) {
 
 	var SketchModel = Backbone.Model.extend({
 		defaults: {
-			id: Math.random(),
 			title: '',
-			lines: new LineCollection()
+			lines: null
+		},
+		initialize: function() {
+			this.set('lines', new LineCollection());
 		}
 	});
 

@@ -12,18 +12,35 @@ define(function(require) {
 	'use strict';
 
 	var Marionette = require('marionette');
+	var AppView = require('view/appview');
 
 	var Application = Marionette.Application.extend({
-		Service: {}
+		Controller: {
+			SketchController: require('controller/sketchcontroller')
+		},
+		Service: {
+			LineService: require('service/lineservice')
+		}
 	});
 
 	var app = new Application();
 
 	/**
-	 * Set up services and register event handlers
+	 * Set up controller events
 	 */
-	app.Service.LineService = require('service/lineservice');
+	app.on('sketch:show', app.Controller.SketchController.show);
+
+	/**
+	 * Set up services events
+	 */
 	app.on('line:add', app.Service.LineService.create);
+
+	/**
+	 * Set up view
+	 */
+	app.View = new AppView({
+		el: '#app'
+	});
 
 	return app;
 });

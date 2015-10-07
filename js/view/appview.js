@@ -11,11 +11,11 @@
 define(function(require) {
 	'use strict';
 
-	var app = require('app');
+	var Marionette = require('marionette');
 
-	app.on('start', function() {
-		app.Controller.SketchController.loadAll();
+	return Marionette.RegionManager.extend({
+		regions: {
+			content: '#app-content-wrapper'
+		}
 	});
-
-	app.start();
 });

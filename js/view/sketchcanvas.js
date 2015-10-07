@@ -18,6 +18,7 @@ define(function(require) {
 
 	return Marionette.ItemView.extend({
 		template: '#sketch-canvas-template',
+		className: 'content',
 		ui: {
 			'background': '#sketch-background',
 			'canvas': '#sketch-canvas'
@@ -74,6 +75,8 @@ define(function(require) {
 		onRender: function() {
 			this.background = this.ui.background[0].getContext('2d');
 			this.canvas = this.ui.canvas[0].getContext('2d');
+		},
+		onShow: function() {
 			this.adjustCanvasSize();
 		},
 		adjustCanvasSize: function() {
