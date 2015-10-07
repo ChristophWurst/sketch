@@ -11,10 +11,10 @@
 define(function(require) {
 	'use strict';
 
-	var Sketch = require('model/sketch').Model;
 	var SketchCollection = require('model/sketch').Collection;
 	var SketchList = require('view/sketchlist');
 	var SketchCanvas = require('view/sketchcanvas');
+	var LoadingView = require('view/loadingview');
 
 	/**
 	 * Load all sketches
@@ -42,9 +42,15 @@ define(function(require) {
 	function show(id) {
 		var app = require('app');
 
-		require('app').View.get('content').show(new SketchCanvas({
-			sketch: app.sketches.get(id)
-		}));
+		require('app').View.get('content').show(new LoadingView());
+
+		var sketch = app.sketches.get(id);
+		var fetchingLines = sketch.get('lines').fetch();
+		fetchingLines.done(function(data) {
+			require('app').View.get('content').show(new SketchCanvas({
+				sketch: app.sketches.get(id)
+			}));
+		});
 
 		app.trigger('sketch:active', id);
 	}

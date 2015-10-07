@@ -17,7 +17,22 @@ use OCP\AppFramework\Db\Entity;
 
 class Line extends Entity implements JsonSerializable {
 
+	/**
+	 * @var int
+	 */
 	protected $sketchId;
+
+	/**
+	 * @var Point[]
+	 */
+	protected $points;
+
+	/**
+	 * @param Point[] $points
+	 */
+	public function setPoints($points) {
+		$this->points = $points;
+	}
 
 	/**
 	 * @return array
@@ -26,6 +41,7 @@ class Line extends Entity implements JsonSerializable {
 		return [
 			'id' => $this->getId(),
 			'sketchId' => $this->getSketchId(),
+			'points' => $this->points,
 		];
 	}
 

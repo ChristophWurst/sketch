@@ -18,32 +18,53 @@ use OCP\AppFramework\Db\Mapper;
 class LineMapper extends Mapper {
 
 	/**
+	 * @var PointMapper
+	 */
+	private $pointMapper;
+
+	/**
 	 * @param IDb $db
 	 */
-	public function __construct(IDb $db) {
+	public function __construct(IDb $db, PointMapper $pointmapper) {
 		parent::__construct($db, 'sketch_lines', Line::class);
+		$this->pointMapper = $pointmapper;
 	}
 
 	/**
-	 * @param type $id
-	 * @param type $userId
+	 * @param Line $line
+	 * @param string $userId
+	 */
+	private function addPoints(Line $line, $userId) {
+		$line->setPoints($this->pointMapper->findAll($line->getId(), $userId));
+	}
+
+	/**
+	 * @param int $id
+	 * @param string $userId
 	 * @return Line
 	 */
 	public function find($sketchId, $id, $userId) {
 		// TODO: check user id (join sketch)
 		$sql = 'SELECT * FROM *PREFIX*sketch_lines WHERE sketch_id = ?'
 			. ' AND id = ?';
-		return $this->findEntity($sql, [$sketchId, $id]);
+		$line = $this->findEntity($sql, [$sketchId, $id]);
+		$this->addPoints($line, $userId);
+		return $line;
 	}
 
 	/**
-	 * @param type $userId
+	 * @param string $userId
 	 * @return Line[]
 	 */
 	public function findAll($sketchId, $userId) {
 		// TODO: check user id (join sketch)
 		$sql = 'SELECT * FROM *PREFIX*sketch_lines WHERE sketch_id = ?';
-		return $this->findEntities($sql, [$sketchId]);
+		$lines = $this->findEntities($sql, [$sketchId]);
+		array_walk($lines,
+			function($line) use ($userId) {
+			$this->addPoints($line, $userId);
+		});
+		return $lines;
 	}
 
 }

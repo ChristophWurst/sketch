@@ -56,7 +56,7 @@ class LineController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param type $sketchId
+	 * @param int $sketchId
 	 * @return DataResponse
 	 */
 	public function index($sketchId) {
@@ -121,6 +121,12 @@ class LineController extends Controller {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 		$this->lineMapper->delete($line);
+
+		// Delete related points
+		foreach ($this->pointMapper->findAll($id, $this->userId) as $point) {
+			$this->pointMapper->delete($point);
+		}
+
 		return new DataResponse($line);
 	}
 

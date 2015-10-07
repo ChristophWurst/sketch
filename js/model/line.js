@@ -20,7 +20,13 @@ define(function(require) {
 			points: null
 		},
 		initialize: function() {
-			this.set('points', new PointCollection());
+			if (this.get('points') === null) {
+				this.set('points', new PointCollection());
+			}
+		},
+		parse: function(data) {
+			data.points = new PointCollection(data.points);
+			return data;
 		},
 		addPoint: function(point) {
 			this.get('points').push(point);
@@ -31,12 +37,12 @@ define(function(require) {
 	});
 
 	var LineCollection = Backbone.Collection.extend({
-		defaults: {
-			
-		},
 		model: Line,
-		url: OC.generateUrl('apps/sketch/lines'),
 		initialize: function(options) {
+			this.url = OC.generateUrl('apps/sketch/sketches/{sketchId}/lines', {
+				sketchId: options.sketchId
+			});
+
 			this.on('add', function(model) {
 				model.set('sketchId', options.sketchId);
 			});
