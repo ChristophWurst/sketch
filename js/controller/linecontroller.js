@@ -11,14 +11,16 @@
 define(function(require) {
 	'use strict';
 
+	function create(sketchId, line) {
+		var sketches = require('app').sketches;
+		var sketch = sketches.get(sketchId);
+		var savingLine = line.save();
+		savingLine.done(function() {
+			sketch.get('lines').add(line);
+		});
+	}
+
 	return {
-		create: function(sketchId, line) {
-			var sketches = require('app').sketches;
-			var sketch = sketches.get(sketchId);
-			var savingLine = line.save();
-			savingLine.done(function() {
-				sketch.get('lines').add(line);
-			});
-		}
+		create: create
 	};
 });
