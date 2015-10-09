@@ -39,12 +39,14 @@ define(function(require) {
 	var LineCollection = Backbone.Collection.extend({
 		model: Line,
 		initialize: function(options) {
-			this.url = OC.generateUrl('apps/sketch/sketches/{sketchId}/lines', {
-				sketchId: options.sketchId
-			});
-
+			this.setUrl(options.sketchId);
 			this.on('add', function(model) {
 				model.set('sketchId', options.sketchId);
+			});
+		},
+		setUrl: function(sketchId) {
+			this.url = OC.generateUrl('apps/sketch/sketches/{sketchId}/lines', {
+				sketchId: sketchId
 			});
 		}
 	});

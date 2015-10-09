@@ -24,6 +24,9 @@ define(function(require) {
 			this.set('lines', new LineCollection({
 				sketchId: this.get('id')
 			}));
+			this.on('sync', function() {
+				this.get('lines').setUrl(this.get('id'));
+			});
 		}
 	});
 

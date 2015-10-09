@@ -11,10 +11,25 @@
 define(function(require) {
 	'use strict';
 
+	var Sketch = require('model/sketch').Model;
 	var SketchCollection = require('model/sketch').Collection;
 	var SketchList = require('view/sketchlist');
 	var SketchCanvas = require('view/sketchcanvas');
 	var LoadingView = require('view/loadingview');
+
+	function add() {
+		var sketch = new Sketch({
+			title: 'sketch'
+		});
+		// New sketch should be shown at the top of the sketch list
+		require('app').sketches.add(sketch, {
+			at: 0
+		});
+		var savingSketch = sketch.save();
+		savingSketch.done(function() {
+			require('app').trigger('sketch:show', sketch.get('id'));
+		});
+	}
 
 	/**
 	 * Load all sketches
@@ -67,6 +82,7 @@ define(function(require) {
 	}
 
 	return {
+		add: add,
 		loadAll: loadAll,
 		show: show,
 		destroy: destroy

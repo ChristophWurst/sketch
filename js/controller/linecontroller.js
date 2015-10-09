@@ -17,7 +17,7 @@ define(function(require) {
 			var sketch = sketches.get(sketchId);
 			var savingLine = line.save();
 			savingLine.done(function() {
-				console.log(sketch.get('lines').add(line));
+				sketch.get('lines').add(line);
 			});
 		}
 	};

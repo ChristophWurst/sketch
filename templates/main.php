@@ -1,5 +1,4 @@
 <?php
-
 /**
  * ownCloud - Sketch
  *
@@ -12,7 +11,6 @@
 script('sketch', 'vendor/requirejs/require');
 script('sketch', 'require_config');
 style('sketch', 'style');
-
 ?>
 
 <div id="app">
@@ -50,4 +48,16 @@ style('sketch', 'style');
 	</canvas>
 	<canvas id="sketch-canvas" width="100" height="100">
 	</canvas>
+</script>
+<script id="sketch-list-template" type="text/html">
+	<div class="new-sketch">
+		<ul class="with-icon">
+			<li class="add-sketch">
+				<div class="heading">
+					<button class="icon-add"><?php p($l->t('Add sketch')); ?></button>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div class="sketches"></div>
 </script>

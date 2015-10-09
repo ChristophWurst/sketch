@@ -14,11 +14,21 @@ define(function(require) {
 	var Marionette = require('marionette');
 	var SketchView = require('view/sketchlistitem');
 
-	return Marionette.CollectionView.extend({
+	return Marionette.CompositeView.extend({
+		template: '#sketch-list-template',
 		tagName: 'ul',
 		childView: SketchView,
+		childViewContainer: '.sketches',
+		events: {
+			'click .add-sketch': 'onAdd'
+		},
 		initialize: function() {
 			this.listenTo(this.collection, 'sync', this.render);
+		},
+		onAdd: function(e) {
+			e.stopPropagation();
+			e.preventDefault();
+			require('app').trigger('sketch:add');
 		}
 	});
 });
