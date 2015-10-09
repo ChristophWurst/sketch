@@ -13,6 +13,7 @@
 namespace OCA\Sketch\Db;
 
 use OCP\IDb;
+use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\Mapper;
 
 class LineMapper extends Mapper {
@@ -34,7 +35,7 @@ class LineMapper extends Mapper {
 	 * @param Line $line
 	 * @param string $userId
 	 */
-	private function addPoints(Line $line, $userId) {
+	public function addPoints(Line $line, $userId) {
 		$line->setPoints($this->pointMapper->findAll($line->getId(), $userId));
 	}
 

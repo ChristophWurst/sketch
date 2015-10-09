@@ -16,10 +16,8 @@ define(function(require) {
 
 	var Application = Marionette.Application.extend({
 		Controller: {
+			LineController: require('controller/linecontroller'),
 			SketchController: require('controller/sketchcontroller')
-		},
-		Service: {
-			LineService: require('service/lineservice')
 		}
 	});
 
@@ -28,13 +26,9 @@ define(function(require) {
 	/**
 	 * Set up controller events
 	 */
+	app.on('line:add', app.Controller.LineController.create);
 	app.on('sketch:show', app.Controller.SketchController.show);
 	app.on('sketch:delete', app.Controller.SketchController.destroy);
-
-	/**
-	 * Set up services events
-	 */
-	app.on('line:add', app.Service.LineService.create);
 
 	/**
 	 * Set up view

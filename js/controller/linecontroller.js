@@ -8,12 +8,17 @@
  * @copyright Christoph Wurst 2015
  */
 
-define(function() {
+define(function(require) {
 	'use strict';
 
 	return {
-		create: function(line) {
-			line.save();
+		create: function(sketchId, line) {
+			var sketches = require('app').sketches;
+			var sketch = sketches.get(sketchId);
+			var savingLine = line.save();
+			savingLine.done(function() {
+				console.log(sketch.get('lines').add(line));
+			});
 		}
 	};
 });

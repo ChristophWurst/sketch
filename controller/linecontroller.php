@@ -95,6 +95,7 @@ class LineController extends Controller {
 			$p->setY($point['y']);
 			$this->pointMapper->insert($p);
 		}
+		$this->lineMapper->addPoints($line, $this->userId);
 		return new DataResponse($result);
 	}
 

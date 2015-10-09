@@ -54,7 +54,7 @@ define(function(require) {
 				this.clearCanvas(this.canvas);
 				this.drawLineOnCanvas(this.line, this.background);
 
-				require('app').trigger('line:add', this.line);
+				require('app').trigger('line:add', this.sketch.get('id'), this.line);
 			}
 		},
 		initialize: function(options) {
