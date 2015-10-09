@@ -29,6 +29,7 @@ define(function(require) {
 	app.on('line:add', app.Controller.LineController.create);
 	app.on('sketch:add', app.Controller.SketchController.add);
 	app.on('sketch:show', app.Controller.SketchController.show);
+	app.on('sketch:update', app.Controller.SketchController.update);
 	app.on('sketch:delete', app.Controller.SketchController.destroy);
 
 	/**

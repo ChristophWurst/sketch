@@ -25,6 +25,20 @@ style('sketch', 'style');
 </div>
 
 <script id="sketch-list-item-template" type="text/html">
+	<% if (isEditing()) { %>
+	<div class="app-navigation-entry-edit">
+		<form class="edit-form">
+			<input value="<%= title %>"
+			       class="sketch-title"
+			       name="sketch-title"
+			       required="required"
+			       type="text">
+			<input value=""
+			       class="action icon-checkmark"
+			       type="submit">
+		</form>
+	</div>
+	<% } else { %>
 	<a href="#"><%= title %></a>
 	<div class="app-navigation-entry-utils">
 		<ul>
@@ -36,11 +50,16 @@ style('sketch', 'style');
 	<div class="app-navigation-entry-menu <%= menuOpened() ? 'open' : '' %>">
 		<ul>
 			<li>
+				<button class="icon-rename rename-sketch"
+					title="<?php p($l->t('Rename sketch')); ?>"></button>
+			</li>
+			<li>
 				<button class="icon-delete delete-sketch"
 					title="<?php p($l->t('Delete sketch')); ?>"></button>
 			</li>
 		</ul>
 	</div>
+	<% } %>
 </script>
 <script id="sketch-canvas-template" type="text/html">
 	<canvas id="sketch-background" width="100" height="100">

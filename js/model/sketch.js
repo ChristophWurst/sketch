@@ -27,6 +27,12 @@ define(function(require) {
 			this.on('sync', function() {
 				this.get('lines').setUrl(this.get('id'));
 			});
+		},
+		toJSON: function() {
+			return {
+				id: this.get('id'),
+				title: this.get('title')
+			};
 		}
 	});
 

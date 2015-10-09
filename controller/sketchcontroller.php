@@ -69,7 +69,6 @@ class sketchcontroller extends Controller {
 	 * @NoAdminRequired
 	 *
 	 * @param string $title
-	 * @param json $content
 	 */
 	public function create($title) {
 		$sketch = new Sketch();
@@ -83,16 +82,15 @@ class sketchcontroller extends Controller {
 	 *
 	 * @param string $id
 	 * @param string $title
-	 * @param json $content
 	 */
 	public function update($id, $title) {
 		try {
 			$sketch = $this->mapper->find($id, $this->userId);
-		} catch (Exception $ex) {
+		} catch (Exception $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 		$sketch->setTitle($title);
-		return new DataResponse($this->mapper->update($entity));
+		return new DataResponse($this->mapper->update($sketch));
 	}
 
 	/**
@@ -103,7 +101,7 @@ class sketchcontroller extends Controller {
 	public function destroy($id) {
 		try {
 			$sketch = $this->mapper->find($id, $this->userId);
-		} catch (Exception $ex) {
+		} catch (Exception $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 		$this->mapper->delete($sketch);

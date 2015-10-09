@@ -71,6 +71,13 @@ define(function(require) {
 		app.trigger('sketch:active', id);
 	}
 
+	function update(id, data) {
+		var sketches = require('app').sketches;
+		var sketch = sketches.get(id);
+		sketch.set('title', data.title);
+		sketch.save();
+	}
+
 	function destroy(id) {
 		var sketches = require('app').sketches;
 		var sketch = sketches.get(id);
@@ -85,6 +92,7 @@ define(function(require) {
 		add: add,
 		loadAll: loadAll,
 		show: show,
+		update: update,
 		destroy: destroy
 	};
 });
