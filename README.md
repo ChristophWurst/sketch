@@ -16,6 +16,22 @@
 * MySQL/MariaDB
 * Sqlite (discouraged)
 
+## Developer setup
+Before you start hacking on this app, make sure ``npm`` and ``bower`` are installed
+on your development machine. For installing ``npm``, use your Linux distribution's
+package manager. ``bower`` can then be installed with
+```bash
+npm install -g bower
+```
+
+To download all JavaScript dependencies, run
+```bash
+bower install
+```
+inside this directory.
+
+That's it. Now you're ready to start contributing to this app ;-)
+
 ## Running tests
 After [Installing PHPUnit](http://phpunit.de/getting-started.html) run:
 
