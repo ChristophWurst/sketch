@@ -25,15 +25,12 @@ appstore_package: clean
 	tar cvzf $(appstore_dir)/$(package_name).tar.gz $(project_dir) \
 	--exclude-vcs \
 	--exclude=$(project_dir)/build \
-	--exclude=$(project_dir)/js/node_modules \
-	--exclude=$(project_dir)/js/.bowerrc \
-	--exclude=$(project_dir)/js/.jshintrc \
-	--exclude=$(project_dir)/js/Gruntfile.js \
-	--exclude=$(project_dir)/js/*.json \
-	--exclude=$(project_dir)/js/*.conf.js \
-	--exclude=$(project_dir)/js/*.log \
+	--exclude=$(project_dir)/bower.json \
+	--exclude=$(project_dir)/.bowerrc \
 	--exclude=$(project_dir)/js/README.md \
-	--exclude=$(project_dir)/js/.bowerrc \
+	--exclude=$(project_dir)/phpunit.integration.xml \
+	--exclude=$(project_dir)/phpunit.xml \
+	--exclude=$(project_dir)/.scrutinizer.yml \
 	--exclude=$(project_dir)/.travis.yml \
 	--exclude=$(project_dir)/phpunit*xml \
 	--exclude=$(project_dir)/Makefile \
