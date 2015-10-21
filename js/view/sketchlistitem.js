@@ -16,7 +16,6 @@ define(function(require) {
 	return Marionette.ItemView.extend({
 		tagName: 'li',
 		className: 'with-menu',
-		active: false,
 		menuOpened: false,
 		isEditing: false,
 		template: '#sketch-list-item-template',
@@ -29,7 +28,7 @@ define(function(require) {
 				isEditing: function() {
 					return that.isEditing;
 				}
-			}
+			};
 		},
 		events: {
 			'click': 'onClick',
@@ -50,6 +49,9 @@ define(function(require) {
 				this.$el.addClass('active');
 			} else {
 				this.$el.removeClass('active');
+				this.menuOpened = false;
+				this.isEditing = false;
+				this.render();
 			}
 		},
 		onClick: function(e) {

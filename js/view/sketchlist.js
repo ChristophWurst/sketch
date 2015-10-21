@@ -23,7 +23,7 @@ define(function(require) {
 			'click .add-sketch': 'onAdd'
 		},
 		initialize: function() {
-			this.listenTo(this.collection, 'sync', this.render);
+			//this.listenTo(this.collection, 'sync', this.render);
 		},
 		onAdd: function(e) {
 			e.stopPropagation();
