@@ -47,6 +47,13 @@ define(function(require) {
 			e.stopPropagation();
 			if (this.drawing) {
 				this.drawing = false;
+
+				// Add a single point if the line is empty -> draw
+				// a point
+				if (this.line.length === 0) {
+					this.line.addPoint(this.getCurrentMousePosition(e));
+				}
+
 				this.sketch.get('lines').push(this.line);
 
 				// Remove it from foreground and draw it to the
@@ -107,6 +114,10 @@ define(function(require) {
 			});
 		},
 		drawLineOnCanvas: function(line, canvas) {
+			if (line.get('points').length === 1) {
+				this.drawPointOnCanvas(line, canvas);
+			}
+
 			canvas.strokeStyle = "#1D2D44";
 			canvas.lineJoin = "round";
 			canvas.lineWidth = 1;
@@ -122,6 +133,14 @@ define(function(require) {
 			});
 			canvas.closePath();
 			canvas.stroke();
+		},
+		drawPointOnCanvas: function(line, canvas) {
+			var point = line.get('points').first();
+			canvas.fillStyle = "#1D2D44";
+			canvas.beginPath();
+			canvas.arc(point.get('x'), point.get('y'), 1, 0, 2 * Math.PI, true);
+			canvas.closePath();
+			canvas.fill();
 		},
 		clearCanvas: function(canvas) {
 			canvas.clearRect(0, 0, canvas.canvas.width, canvas.canvas.height);
