@@ -11,6 +11,7 @@
 define(function(require) {
 	'use strict';
 
+	var DateUtil = require('util/dateutil');
 	var Sketch = require('model/sketch').Model;
 	var SketchCollection = require('model/sketch').Collection;
 	var SketchList = require('view/sketchlist');
@@ -19,7 +20,7 @@ define(function(require) {
 
 	function add() {
 		var sketch = new Sketch({
-			title: 'sketch'
+			title: DateUtil.now()
 		});
 		// New sketch should be shown at the top of the sketch list
 		require('app').sketches.add(sketch, {
