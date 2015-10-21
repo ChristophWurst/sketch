@@ -70,7 +70,7 @@ style('sketch', 'style');
 </script>
 <script id="sketch-list-template" type="text/html">
 	<div class="new-sketch">
-		<u>
+		<ul>
 			<li class="add-sketch">
 				<div class="heading">
 					<button class="icon-add"><?php p($l->t('Add sketch')); ?></button>
