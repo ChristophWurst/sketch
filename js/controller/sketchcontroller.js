@@ -28,6 +28,7 @@ define(function(require) {
 		var savingSketch = sketch.save();
 		savingSketch.done(function() {
 			require('app').trigger('sketch:show', sketch.get('id'));
+			require('app').trigger('sketch:edit', sketch.get('id'));
 		});
 	}
 

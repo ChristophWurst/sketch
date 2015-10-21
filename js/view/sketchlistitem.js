@@ -30,16 +30,26 @@ define(function(require) {
 				}
 			};
 		},
+		ui: {
+			'menuButton': '.app-navigation-entry-utils-menu-button',
+			'renameButton': '.rename-sketch',
+			'nameInput': 'input[type=text]',
+			'form': '.edit-form',
+			'submitButton': 'input[type=submit]',
+			'deleteButton': '.delete-sketch'
+		},
 		events: {
 			'click': 'onClick',
-			'click .app-navigation-entry-utils-menu-button': 'onMenu',
-			'click .rename-sketch': 'onEdit',
-			'click input': 'onInput',
-			'submit .edit-form': 'onEditSubmit',
-			'click .delete-sketch': 'onDelete'
+			'click @ui.menuButton': 'onClickMenu',
+			'click @ui.renameButton': 'onClickEdit',
+			'click @ui.nameInput': 'onClickInput',
+			'submit @ui.form': 'onEditSubmit',
+			'click @ui.submitButton': 'onEditSubmit',
+			'click @ui.deleteButton': 'onDelete'
 		},
 		initialize: function() {
 			this.listenTo(require('app'), 'sketch:active', this.setActive);
+			this.listenTo(require('app'), 'sketch:edit', this.onEdit);
 		},
 		onBeforeDestroy: function() {
 			this.stopListening();
@@ -59,18 +69,19 @@ define(function(require) {
 			e.preventDefault();
 			require('app').trigger('sketch:show', this.model.get('id'));
 		},
-		onMenu: function(e) {
+		onClickMenu: function(e) {
 			e.stopPropagation();
 			this.menuOpened = !this.menuOpened;
 			this.render();
 		},
-		onEdit: function(e) {
+		onClickEdit: function(e) {
 			e.stopPropagation();
 			this.menuOpened = false;
 			this.isEditing = true;
 			this.render();
+			this.ui.nameInput.select();
 		},
-		onInput: function(e) {
+		onClickInput: function(e) {
 			e.stopPropagation();
 		},
 		onEditSubmit: function(e) {
@@ -82,6 +93,14 @@ define(function(require) {
 
 			this.isEditing = false;
 			this.render();
+		},
+		onEdit: function(vehicleId) {
+			if (vehicleId === this.model.get('id')) {
+				this.menuOpened = false;
+				this.isEditing = true;
+				this.render();
+				this.ui.nameInput.select();
+			}
 		},
 		onDelete: function(e) {
 			e.stopPropagation();
