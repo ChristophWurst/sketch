@@ -86,6 +86,7 @@ define(function(require) {
 		},
 		onEditSubmit: function(e) {
 			e.preventDefault();
+			e.stopPropagation();
 
 			require('app').trigger('sketch:update', this.model.get('id'), {
 				title: this.$('input.sketch-title').val()
