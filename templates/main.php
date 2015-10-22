@@ -78,5 +78,5 @@ style('sketch', 'style');
 			</li>
 		</ul>
 	</div>
-	<div class="sketches"></div>
+	<ul class="sketches"></ul>
 </script>
