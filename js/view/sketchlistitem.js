@@ -50,6 +50,7 @@ define(function(require) {
 		initialize: function() {
 			this.listenTo(require('app'), 'sketch:active', this.setActive);
 			this.listenTo(require('app'), 'sketch:edit', this.onEdit);
+			this.listenTo(require('app'), 'view:click', this.onClickOtherElement);
 		},
 		onBeforeDestroy: function() {
 			this.stopListening();
@@ -65,28 +66,34 @@ define(function(require) {
 			}
 		},
 		onClick: function(e) {
-			e.stopPropagation();
+			if (e.isDefaultPrevented()) {
+				return;
+			}
 			e.preventDefault();
 			require('app').trigger('sketch:show', this.model.get('id'));
 		},
+		onClickOtherElement: function(e) {
+			this.menuOpened = false;
+			this.isEditing = false;
+			this.render();
+		},
 		onClickMenu: function(e) {
-			e.stopPropagation();
+			e.preventDefault();
 			this.menuOpened = !this.menuOpened;
 			this.render();
 		},
 		onClickEdit: function(e) {
-			e.stopPropagation();
+			e.preventDefault();
 			this.menuOpened = false;
 			this.isEditing = true;
 			this.render();
 			this.ui.nameInput.select();
 		},
 		onClickInput: function(e) {
-			e.stopPropagation();
+			e.preventDefault();
 		},
 		onEditSubmit: function(e) {
 			e.preventDefault();
-			e.stopPropagation();
 
 			require('app').trigger('sketch:update', this.model.get('id'), {
 				title: this.$('input.sketch-title').val()
@@ -104,7 +111,7 @@ define(function(require) {
 			}
 		},
 		onDelete: function(e) {
-			e.stopPropagation();
+			e.preventDefault();
 			require('app').trigger('sketch:delete', this.model.get('id'));
 		}
 	});

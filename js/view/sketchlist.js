@@ -26,8 +26,6 @@ define(function(require) {
 			//this.listenTo(this.collection, 'sync', this.render);
 		},
 		onAdd: function(e) {
-			e.stopPropagation();
-			e.preventDefault();
 			require('app').trigger('sketch:add');
 		}
 	});

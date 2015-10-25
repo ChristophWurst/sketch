@@ -16,6 +16,13 @@ define(function(require) {
 	return Marionette.RegionManager.extend({
 		regions: {
 			content: '#app-content-wrapper'
+		},
+		initialize: function() {
+			$(document).on('click', function(e) {
+				if (!e.isDefaultPrevented()) {
+					require('app').trigger('view:click', e);
+				}
+			});
 		}
 	});
 });
