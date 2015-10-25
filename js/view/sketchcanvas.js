@@ -40,7 +40,6 @@ define(function(require) {
 			this.line.addPoint(this.getCurrentMousePosition(e, isTouch));
 		},
 		startTouchLine: function(e) {
-			e.stopPropagation();
 			this.startLine(e.originalEvent, true);
 		},
 		drawLine: function(e, isTouch) {
