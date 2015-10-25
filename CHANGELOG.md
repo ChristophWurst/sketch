@@ -3,6 +3,7 @@
 v0.1.1
 * don't reload sketch after renaming (issue #24)
 * support for touch devices (issue #26)
+* small UX fixes (issues #23, #24)
 
 v0.1.0
 * First release
