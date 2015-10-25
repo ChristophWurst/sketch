@@ -25,33 +25,46 @@ define(function(require) {
 		},
 		events: {
 			'mousedown @ui.canvas': 'startLine',
+			'touchstart @ui.canvas': 'startTouchLine',
 			'mousemove @ui.canvas': 'drawLine',
+			'touchmove @ui.canvas': 'drawTouchLine',
 			'mouseup @ui.canvas': 'finishLine',
+			'touchend @ui.canvas': 'finishTouchLine',
 			'mouseleave @ui.canvas': 'finishLine'
 		},
-		startLine: function(e) {
-			e.stopPropagation();
+		startLine: function(e, isTouch) {
+			isTouch = isTouch || false;
+
 			this.drawing = true;
 			this.line = new Line();
-			this.line.addPoint(this.getCurrentMousePosition(e));
+			this.line.addPoint(this.getCurrentMousePosition(e, isTouch));
 		},
-		drawLine: function(e) {
+		startTouchLine: function(e) {
 			e.stopPropagation();
+			this.startLine(e.originalEvent, true);
+		},
+		drawLine: function(e, isTouch) {
+			isTouch = isTouch || false;
+
 			if (this.drawing) {
-				this.line.addPoint(this.getCurrentMousePosition(e));
+				this.line.addPoint(this.getCurrentMousePosition(e, isTouch));
 				this.clearCanvas(this.canvas);
 				this.drawLineOnCanvas(this.line, this.canvas);
 			}
 		},
-		finishLine: function(e) {
-			e.stopPropagation();
+		drawTouchLine: function(e) {
+			this.drawLine(e.originalEvent, true);
+		},
+		finishLine: function(e, isTouch) {
+			isTouch = isTouch || false;
+
 			if (this.drawing) {
 				this.drawing = false;
 
 				// Add a single point if the line is empty -> draw
 				// a point
 				if (this.line.length === 0) {
-					this.line.addPoint(this.getCurrentMousePosition(e));
+					this.line.addPoint(this.getCurrentMousePosition(e, isTouch));
 				}
 
 				this.sketch.get('lines').push(this.line);
@@ -63,6 +76,9 @@ define(function(require) {
 
 				require('app').trigger('line:add', this.sketch.get('id'), this.line);
 			}
+		},
+		finishTouchLine: function(e) {
+			this.finishLine(e.originalEvent, true);
 		},
 		initialize: function(options) {
 			this.sketch = options.sketch;
@@ -100,11 +116,20 @@ define(function(require) {
 			this.clearCanvas(this.canvas);
 			this.drawLineOnCanvas(this.line, this.canvas);
 		},
-		getCurrentMousePosition: function(e) {
-			return {
-				x: e.pageX - this.ui.canvas.offset().left,
-				y: e.pageY - this.ui.canvas.offset().top
-			};
+		getCurrentMousePosition: function(e, isTouch) {
+			isTouch = isTouch || false;
+
+			if (isTouch) {
+				return {
+					x: e.changedTouches[0].pageX - this.ui.canvas.offset().left,
+					y: e.changedTouches[0].pageY - this.ui.canvas.offset().top
+				};
+			} else {
+				return {
+					x: e.pageX - this.ui.canvas.offset().left,
+					y: e.pageY - this.ui.canvas.offset().top
+				};
+			}
 		},
 		reDrawBackground: function() {
 			this.clearCanvas(this.background);
