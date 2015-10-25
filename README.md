@@ -10,7 +10,7 @@
 * PHP >= 5.5
 
 ## Supported Browsers
-* Newest Firefox (Desktop)
+* Newest Firefox (Desktop, Android)
 
 ## Supported Databases
 * MySQL/MariaDB
