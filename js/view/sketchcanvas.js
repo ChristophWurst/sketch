@@ -52,6 +52,7 @@ define(function(require) {
 			}
 		},
 		drawTouchLine: function(e) {
+			e.stopPropagation();
 			this.drawLine(e.originalEvent, true);
 		},
 		finishLine: function(e, isTouch) {
