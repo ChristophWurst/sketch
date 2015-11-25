@@ -5,11 +5,18 @@
 	<description>Simple sketching app</description>
 	<licence>AGPL</licence>
 	<author>Christoph Wurst</author>
-	<version>0.1.1</version>
+	<version>0.1.2</version>
 	<namespace>Sketch</namespace>
 	<category>other</category>
+
+	<bugs>https://github.com/ChristophWurst/sketch/issues</bugs>
+	<repository type="git">https://github.com/ChristophWurst/sketch.git</repository>
+	<ocsid>174146</ocsid>
+
 	<dependencies>
 		<owncloud min-version="8.1" />
 		<php min-version="5.5" max-version="7.0" />
+		<database>sqlite</database>
+		<database>mysql</database>
 	</dependencies>
 </info>
