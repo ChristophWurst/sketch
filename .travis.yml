@@ -7,7 +7,6 @@ php:
 
 env:
   - DB=sqlite BRANCH=master
-  - DB=postgresql BRANCH=master
   - DB=mysql BRANCH=master
 
 addons:
@@ -17,7 +16,6 @@ addons:
       - python3-jinja2
       - python3-setuptools
       - python3-pip
-  postgresql: "9.3"
 
 matrix:
   allow_failures:
