@@ -16,6 +16,9 @@
 * MySQL/MariaDB
 * Sqlite (discouraged)
 
+## Installation
+This app is available on the ownCloud app store. [Link](https://apps.owncloud.com/content/show.php/Sketch?content=174146)
+
 ## Developer setup
 Before you start hacking on this app, make sure ``npm`` and ``bower`` are installed
 on your development machine. For installing ``npm``, use your Linux distribution's
