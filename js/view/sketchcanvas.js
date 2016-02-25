@@ -143,7 +143,7 @@ define(function(require) {
 				this.drawPointOnCanvas(line, canvas);
 			}
 
-			canvas.strokeStyle = "#1D2D44";
+			canvas.strokeStyle = "#000000";
 			canvas.lineJoin = "round";
 			canvas.lineWidth = 1;
 
