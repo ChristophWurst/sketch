@@ -17,10 +17,6 @@ addons:
       - python3-setuptools
       - python3-pip
 
-matrix:
-  allow_failures:
-    - php: 7
-
 install:
   # Env info for debugging CI errors
   - python3 --version
