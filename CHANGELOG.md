@@ -1,5 +1,8 @@
 # Changelog
 
+v0.1.2
+* fix line color (#25)
+
 v0.1.1
 * don't reload sketch after renaming (issue #24)
 * support for touch devices (issue #26)
