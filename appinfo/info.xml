@@ -5,7 +5,7 @@
 	<description>Simple sketching app</description>
 	<licence>AGPL</licence>
 	<author>Christoph Wurst</author>
-	<version>0.1.2</version>
+	<version>0.1.3</version>
 	<namespace>Sketch</namespace>
 	<category>other</category>
 

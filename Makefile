@@ -30,6 +30,7 @@ appstore_package: clean
 	--exclude=$(project_dir)/js/README.md \
 	--exclude=$(project_dir)/phpunit.integration.xml \
 	--exclude=$(project_dir)/phpunit.xml \
+        --exclude=$(project_dir)/nbproject \
 	--exclude=$(project_dir)/.scrutinizer.yml \
 	--exclude=$(project_dir)/.travis.yml \
 	--exclude=$(project_dir)/phpunit*xml \
