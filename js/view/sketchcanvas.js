@@ -14,11 +14,13 @@ define(function(require) {
 	var Marionette = require('marionette');
 	var _ = require('underscore');
 	var $ = require('jquery');
+	var Point = require('model/point').Model;
 	var Line = require('model/line').Model;
 
 	return Marionette.ItemView.extend({
 		template: '#sketch-canvas-template',
 		className: 'content',
+		lastPosition: null,
 		ui: {
 			'background': '#sketch-background',
 			'canvas': '#sketch-canvas'
@@ -37,18 +39,27 @@ define(function(require) {
 
 			this.drawing = true;
 			this.line = new Line();
-			this.line.addPoint(this.getCurrentMousePosition(e, isTouch));
+			var currentPosition = this.getCurrentMousePosition(e, isTouch);
+			this.line.addPoint(currentPosition);
+			this.lastPosition = currentPosition;
 		},
 		startTouchLine: function(e) {
 			this.startLine(e.originalEvent, true);
 		},
 		drawLine: function(e, isTouch) {
+			e.preventDefault();
+			e.stopPropagation();
 			isTouch = isTouch || false;
 
 			if (this.drawing) {
-				this.line.addPoint(this.getCurrentMousePosition(e, isTouch));
-				this.clearCanvas(this.canvas);
-				this.drawLineOnCanvas(this.line, this.canvas);
+				var currentPosition = this.getCurrentMousePosition(e, isTouch);
+				if (currentPosition.equals(this.lastPosition)) {
+					// ignore it
+					return;
+				}
+				this.drawPartialLine(this.lastPosition, currentPosition, this.canvas);
+				this.lastPosition = currentPosition;
+				this.line.addPoint(currentPosition);
 			}
 		},
 		drawTouchLine: function(e) {
@@ -60,6 +71,7 @@ define(function(require) {
 
 			if (this.drawing) {
 				this.drawing = false;
+				this.lastPosition = null;
 
 				// Add a single point if the line is empty -> draw
 				// a point
@@ -101,6 +113,9 @@ define(function(require) {
 		},
 		onShow: function() {
 			this.adjustCanvasSize();
+			this.canvas.strokeStyle = "#000000";
+			this.canvas.lineJoin = "round";
+			this.canvas.lineWidth = 1;
 		},
 		adjustCanvasSize: function() {
 			var that = this;
@@ -120,15 +135,15 @@ define(function(require) {
 			isTouch = isTouch || false;
 
 			if (isTouch) {
-				return {
+				return new Point({
 					x: e.changedTouches[0].pageX - this.ui.canvas.offset().left,
 					y: e.changedTouches[0].pageY - this.ui.canvas.offset().top
-				};
+				});
 			} else {
-				return {
+				return new Point({
 					x: e.pageX - this.ui.canvas.offset().left,
 					y: e.pageY - this.ui.canvas.offset().top
-				};
+				});
 			}
 		},
 		reDrawBackground: function() {
@@ -138,14 +153,17 @@ define(function(require) {
 				that.drawLineOnCanvas(line, that.background);
 			});
 		},
+		drawPartialLine: function(previous, current, canvas) {
+			canvas.beginPath();
+			canvas.moveTo(previous.get('x'), previous.get('y'));
+			canvas.lineTo(current.get('x'), current.get('y'));
+			canvas.closePath();
+			canvas.stroke();
+		},
 		drawLineOnCanvas: function(line, canvas) {
 			if (line.get('points').length === 1) {
 				this.drawPointOnCanvas(line, canvas);
 			}
-
-			canvas.strokeStyle = "#000000";
-			canvas.lineJoin = "round";
-			canvas.lineWidth = 1;
 
 			var prev = null;
 			canvas.beginPath();

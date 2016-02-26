@@ -17,6 +17,10 @@ define(function(require) {
 		defaults: {
 			x: 0,
 			y: 0
+		},
+		equals: function(other) {
+			return this.get('x') === other.get('x')
+				&& this.get('y') === other.get('y');
 		}
 	});
 

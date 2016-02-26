@@ -1,5 +1,8 @@
 # Changelog
 
+v0.1.3
+* canvas drawing performance improvements
+
 v0.1.2
 * fix line color (#25)
 
