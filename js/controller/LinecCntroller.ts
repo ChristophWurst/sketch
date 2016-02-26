@@ -8,19 +8,17 @@
  * @copyright Christoph Wurst 2015
  */
 
-define(function(require) {
-	'use strict';
+import App = require('app');
 
-	function create(sketchId, line) {
-		var sketches = require('app').sketches;
+class LineController {
+	public create(sketchId, line) {
+		var sketches = App.sketches;
 		var sketch = sketches.get(sketchId);
 		var savingLine = line.save();
 		savingLine.done(function() {
 			sketch.get('lines').add(line);
 		});
 	}
+}
 
-	return {
-		create: create
-	};
-});
+export = LineController;

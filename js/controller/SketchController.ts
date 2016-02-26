@@ -8,17 +8,15 @@
  * @copyright Christoph Wurst 2015
  */
 
-define(function(require) {
-	'use strict';
+import DateUtil = require('util/dateutil');
+import Sketch = require('model/sketch').Model;
+import SketchCollection = require('model/sketch').Collection;
+import SketchList = require('view/sketchlist');
+import SketchCanvas = require('view/sketchcanvas');
+import LoadingView = require('view/loadingview');
 
-	var DateUtil = require('util/dateutil');
-	var Sketch = require('model/sketch').Model;
-	var SketchCollection = require('model/sketch').Collection;
-	var SketchList = require('view/sketchlist');
-	var SketchCanvas = require('view/sketchcanvas');
-	var LoadingView = require('view/loadingview');
-
-	function add() {
+class SketchController {
+	public add() {
 		var sketch = new Sketch({
 			title: DateUtil.now()
 		});
@@ -38,7 +36,7 @@ define(function(require) {
 	 *
 	 * @returns {undefined}
 	 */
-	function loadAll() {
+	public loadAll() {
 		var app = require('app');
 		app.sketches = new SketchCollection();
 		app.sketchList = new SketchList({
@@ -57,7 +55,7 @@ define(function(require) {
 		});
 	}
 
-	function show(id) {
+	public show(id) {
 		var app = require('app');
 
 		require('app').View.get('content').show(new LoadingView());
@@ -73,14 +71,14 @@ define(function(require) {
 		app.trigger('sketch:active', id);
 	}
 
-	function update(id, data) {
+	public update(id, data) {
 		var sketches = require('app').sketches;
 		var sketch = sketches.get(id);
 		sketch.set('title', data.title);
 		sketch.save();
 	}
 
-	function destroy(id) {
+	public destroy(id) {
 		var sketches = require('app').sketches;
 		var sketch = sketches.get(id);
 		sketch.destroy();
@@ -89,12 +87,6 @@ define(function(require) {
 			show(sketches.at(0).get('id'));
 		}
 	}
+}
 
-	return {
-		add: add,
-		loadAll: loadAll,
-		show: show,
-		update: update,
-		destroy: destroy
-	};
-});
+export = SketchController;

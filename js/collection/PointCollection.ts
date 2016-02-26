@@ -5,11 +5,12 @@
  * later. See the COPYING file.
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @copyright Christoph Wurst 2015
+ * @copyright Christoph Wurst 2016
  */
 
-define(function() {
-	'use strict';
+import Backbone = require('backbone');
+import Point = require('model/Point');
 
-	return $;
-});
+class PointCollection extends Backbone.Collection<Point> {}
+
+export = PointCollection;

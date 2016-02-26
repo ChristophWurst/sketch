@@ -5,17 +5,13 @@
  * later. See the COPYING file.
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @copyright Christoph Wurst 2015
+ * @copyright Christoph Wurst 2016
  */
 
-define(function(require) {
-	'use strict';
+import ITool = require('drawingtools/itool');
 
-	var app = require('app');
+class Pencil implements ITool {
+	
+}
 
-	app.on('start', function() {
-		app.Controller.SketchController.loadAll();
-	});
-
-	app.start();
-});
+export = Pencil;
