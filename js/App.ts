@@ -1,3 +1,5 @@
+/// <reference path="./typings/browser.d.ts" />
+
 /**
  * ownCloud - Sketch
  *
@@ -5,12 +7,12 @@
  * later. See the COPYING file.
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @copyright Christoph Wurst 2015
+ * @copyright Christoph Wurst 2016
  */
 
-import Marionette = require('marionette');
-import LineController = require('controller/linecontroller')
-import SketchController = require('controller/sketchcontroller');
+import Marionette = require('backbone.marionette');
+import LineController = require('controller/LineController')
+import SketchController = require('controller/SketchController');
 import AppView = require('view/AppView');
 
 class Application extends Marionette.Application {

@@ -1,0 +1,12 @@
+{
+  "name": "sketch",
+  "dependencies": {},
+  "devDependencies": {},
+  "ambientDependencies": {
+    "backbone": "github:DefinitelyTyped/DefinitelyTyped/backbone/backbone.d.ts#aa043e12aeafd11832a7d5c8245f4711eb2de528",
+    "jquery": "github:DefinitelyTyped/DefinitelyTyped/jquery/jquery.d.ts#470954c4f427e0805a2d633636a7c6aa7170def8",
+    "marionette": "github:DefinitelyTyped/DefinitelyTyped/marionette/marionette.d.ts#690e9db4f61d5fbcf3cb9619cdda423092fe7145",
+    "require": "github:DefinitelyTyped/DefinitelyTyped/requirejs/require.d.ts#4de74cb527395c13ba20b438c3a7a419ad931f1c",
+    "underscore": "github:DefinitelyTyped/DefinitelyTyped/underscore/underscore.d.ts#ae40eedc5648e91f21a52e0f596479ed87a12af4"
+  }
+}

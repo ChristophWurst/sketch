@@ -8,8 +8,6 @@
  * @copyright Christoph Wurst 2016
  */
 
-import ITool = require('drawingtools/itool');
-
 class Pencil implements ITool {
 	
 }

@@ -8,11 +8,9 @@
  * @copyright Christoph Wurst 2015
  */
 
-import App = require('app');
-
 class LineController {
-	public create(sketchId, line) {
-		var sketches = App.sketches;
+	public create(sketchId: Number, line: any) {
+		var sketches = require('app').sketches;
 		var sketch = sketches.get(sketchId);
 		var savingLine = line.save();
 		savingLine.done(function() {

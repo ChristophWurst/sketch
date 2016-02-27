@@ -1,3 +1,5 @@
+///<reference path="../typings/browser.d.ts"/>
+
 /**
  * ownCloud - Sketch
  *
@@ -8,25 +10,27 @@
  * @copyright Christoph Wurst 2015
  */
 
-define(function(require) {
-	'use strict';
+import Marionette = require('backbone.marionette');
+import Sketch = require('model/Sketch');
+import SketchListItem = require('view/SketchListItem');
 
-	var Marionette = require('marionette');
-	var SketchView = require('view/sketchlistitem');
+class SketchList extends Marionette.CompositeView<Sketch, SketchListItem> {
 
-	return Marionette.CompositeView.extend({
-		template: '#sketch-list-template',
-		tagName: 'ul',
-		childView: SketchView,
-		childViewContainer: '.sketches',
-		events: {
-			'click .add-sketch': 'onAdd'
-		},
-		initialize: function() {
-			//this.listenTo(this.collection, 'sync', this.render);
-		},
-		onAdd: function(e) {
-			require('app').trigger('sketch:add');
-		}
-	});
-});
+	public template = '#sketch-list-template';
+	public tagName = 'ul';
+	public childView = SketchListItem;
+	public childViewContainer = '.sketches';
+
+	public events = {
+		'click .add-sketch': 'onAdd'
+	}
+
+	public initialize() {
+		//this.listenTo(this.collection, 'sync', this.render);
+	}
+
+	public onAdd(e) {
+		require('App').trigger('sketch:add')
+	}
+	
+}

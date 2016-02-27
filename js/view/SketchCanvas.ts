@@ -89,7 +89,7 @@ class SketchCanvas extends Marionette.ItemView {
 			this.clearCanvas(this.canvas);
 			this.drawLineOnCanvas(this.line, this.background);
 
-			require('app').trigger('line:add', this.sketch.get('id'), this.line);
+			require('App').trigger('line:add', this.sketch.get('id'), this.line);
 		}
 	}
 	public finishTouchLine(e) {

@@ -5,6 +5,8 @@
 		"sourceMap": false
 	},
 	"exclude": [
-		"vendor"
+		"vendor",
+		"typings/main.d.ts",
+		"typings/main"
 	]
 }

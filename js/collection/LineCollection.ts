@@ -1,3 +1,5 @@
+///<reference path="../typings/browser.d.ts"/>
+
 /**
  * ownCloud - Sketch
  *
@@ -8,9 +10,13 @@
  * @copyright Christoph Wurst 2016
  */
 
+import Backbone = require('backbone');
+import OC = require('OC');
+import Line = require('model/Line');
+
 class LineCollection extends Backbone.Collection<Line> {
 
-	public url = null;
+	public url:string = null;
 
 	public initialize(options) {
 		this.setUrl(options.sketchId);

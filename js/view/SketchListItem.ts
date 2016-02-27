@@ -1,3 +1,5 @@
+///<reference path="../typings/browser.d.ts"/>
+
 /**
  * ownCloud - Sketch
  *
@@ -8,111 +10,122 @@
  * @copyright Christoph Wurst 2015
  */
 
-define(function(require) {
-	'use strict';
+import Marionette = require('backbone.marionette');
+import Sketch = require('model/Sketch');
 
-	var Marionette = require('marionette');
-
-	return Marionette.ItemView.extend({
-		tagName: 'li',
-		className: 'with-menu',
-		menuOpened: false,
-		isEditing: false,
-		template: '#sketch-list-item-template',
-		templateHelpers: function() {
-			var that = this;
-			return {
-				menuOpened: function() {
-					return that.menuOpened;
-				},
-				isEditing: function() {
-					return that.isEditing;
-				}
-			};
-		},
-		ui: {
-			'menuButton': '.app-navigation-entry-utils-menu-button',
-			'renameButton': '.rename-sketch',
-			'nameInput': 'input[type=text]',
-			'form': '.edit-form',
-			'submitButton': 'input[type=submit]',
-			'deleteButton': '.delete-sketch'
-		},
-		events: {
-			'click': 'onClick',
-			'click @ui.menuButton': 'onClickMenu',
-			'click @ui.renameButton': 'onClickEdit',
-			'click @ui.nameInput': 'onClickInput',
-			'submit @ui.form': 'onEditSubmit',
-			'click @ui.submitButton': 'onEditSubmit',
-			'click @ui.deleteButton': 'onDelete'
-		},
-		initialize: function() {
-			this.listenTo(require('app'), 'sketch:active', this.setActive);
-			this.listenTo(require('app'), 'sketch:edit', this.onEdit);
-			this.listenTo(require('app'), 'view:click', this.onClickOtherElement);
-		},
-		onBeforeDestroy: function() {
-			this.stopListening();
-		},
-		setActive: function(activeId) {
-			if (activeId === this.model.get('id')) {
-				this.$el.addClass('active');
-			} else {
-				this.$el.removeClass('active');
-				this.menuOpened = false;
-				this.isEditing = false;
-				this.render();
+class SketchListItem extends Marionette.ItemView<Sketch> {
+	public tagName = 'li';
+	className = 'with-menu';
+	menuOpened = false;
+	isEditing = false;
+	template = '#sketch-list-item-template';
+	
+	protected templateHelpers() {
+		var that = this;
+		return {
+			menuOpened: function() {
+				return that.menuOpened;
+			},
+			isEditing: function() {
+				return that.isEditing;
 			}
-		},
-		onClick: function(e) {
-			if (e.isDefaultPrevented()) {
-				return;
-			}
-			e.preventDefault();
-			require('app').trigger('sketch:show', this.model.get('id'));
-		},
-		onClickOtherElement: function(e) {
+		};
+	}
+	
+	ui = {
+		'menuButton': '.app-navigation-entry-utils-menu-button',
+		'renameButton': '.rename-sketch',
+		'nameInput': 'input[type=text]',
+		'form': '.edit-form',
+		'submitButton': 'input[type=submit]',
+		'deleteButton': '.delete-sketch'
+	}
+	
+	private events = {
+		'click': 'onClick',
+		'click @ui.menuButton': 'onClickMenu',
+		'click @ui.renameButton': 'onClickEdit',
+		'click @ui.nameInput': 'onClickInput',
+		'submit @ui.form': 'onEditSubmit',
+		'click @ui.submitButton': 'onEditSubmit',
+		'click @ui.deleteButton': 'onDelete'
+	}
+	
+	protected initialize() {
+		this.listenTo(require('App'), 'sketch:active', this.setActive);
+		this.listenTo(require('App'), 'sketch:edit', this.onEdit);
+		this.listenTo(require('App'), 'view:click', this.onClickOtherElement);
+	}
+	
+	protected onBeforeDestroy() {
+		this.stopListening();
+	}
+	
+	private setActive(activeId) {
+		if (activeId === this.model.get('id')) {
+			this.$el.addClass('active');
+		} else {
+			this.$el.removeClass('active');
 			this.menuOpened = false;
 			this.isEditing = false;
 			this.render();
-		},
-		onClickMenu: function(e) {
-			e.preventDefault();
-			this.menuOpened = !this.menuOpened;
-			this.render();
-		},
-		onClickEdit: function(e) {
-			e.preventDefault();
+		}
+	}
+	
+	private onClick(e) {
+		if (e.isDefaultPrevented()) {
+			return;
+		}
+		e.preventDefault();
+		require('App').trigger('sketch:show', this.model.get('id'));
+	}
+	
+	private onClickOtherElement(e) {
+		this.menuOpened = false;
+		this.isEditing = false;
+		this.render();
+	}
+	
+	private onClickMenu(e) {
+		e.preventDefault();
+		this.menuOpened = !this.menuOpened;
+		this.render();
+	}
+	
+	private onClickEdit(e) {
+		e.preventDefault();
+		this.menuOpened = false;
+		this.isEditing = true;
+		this.render();
+		this.ui.nameInput.select();
+	}
+	
+	private onClickInput(e) {
+		e.preventDefault();
+	}
+	
+	private onEditSubmit(e) {
+		e.preventDefault();
+
+		require('App').trigger('sketch:update', this.model.get('id'), {
+			title: this.$('input.sketch-title').val()
+		});
+
+		this.isEditing = false;
+		this.render();
+	}
+	
+	privateonEdit(vehicleId) {
+		if (vehicleId === this.model.get('id')) {
 			this.menuOpened = false;
 			this.isEditing = true;
 			this.render();
 			this.ui.nameInput.select();
-		},
-		onClickInput: function(e) {
-			e.preventDefault();
-		},
-		onEditSubmit: function(e) {
-			e.preventDefault();
-
-			require('app').trigger('sketch:update', this.model.get('id'), {
-				title: this.$('input.sketch-title').val()
-			});
-
-			this.isEditing = false;
-			this.render();
-		},
-		onEdit: function(vehicleId) {
-			if (vehicleId === this.model.get('id')) {
-				this.menuOpened = false;
-				this.isEditing = true;
-				this.render();
-				this.ui.nameInput.select();
-			}
-		},
-		onDelete: function(e) {
-			e.preventDefault();
-			require('app').trigger('sketch:delete', this.model.get('id'));
 		}
-	});
-});
+	}
+	
+	private onDelete(e) {
+		e.preventDefault();
+		require('App').trigger('sketch:delete', this.model.get('id'));
+	}
+}

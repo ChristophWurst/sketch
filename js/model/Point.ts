@@ -21,4 +21,4 @@ class Point extends Backbone.Model.extend {
 	}
 }
 
-export Point;
+export = Point;

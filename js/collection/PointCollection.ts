@@ -1,3 +1,6 @@
+///<amd-depenasdency path="backbone" />
+///<reference path="../typings/browser.d.ts" />
+
 /**
  * ownCloud - Sketch
  *
@@ -8,7 +11,7 @@
  * @copyright Christoph Wurst 2016
  */
 
-import Backbone = require('backbone');
+import * as Backbone from "backbone";
 import Point = require('model/Point');
 
 class PointCollection extends Backbone.Collection<Point> {}

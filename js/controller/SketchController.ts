@@ -8,12 +8,12 @@
  * @copyright Christoph Wurst 2015
  */
 
-import DateUtil = require('util/dateutil');
-import Sketch = require('model/sketch').Model;
-import SketchCollection = require('model/sketch').Collection;
-import SketchList = require('view/sketchlist');
-import SketchCanvas = require('view/sketchcanvas');
-import LoadingView = require('view/loadingview');
+import DateUtil = require('util/DateUtil');
+import Sketch = require('model/Sketch');
+import SketchCollection = require('collection/SketchCollection');
+import SketchList = require('view/SketchList');
+import SketchCanvas = require('view/SketchCanvas');
+import LoadingView = require('view/LoadingView');
 
 class SketchController {
 	public add() {
@@ -21,13 +21,13 @@ class SketchController {
 			title: DateUtil.now()
 		});
 		// New sketch should be shown at the top of the sketch list
-		require('app').sketches.add(sketch, {
+		require('App').sketches.add(sketch, {
 			at: 0
 		});
 		var savingSketch = sketch.save();
 		savingSketch.done(function() {
-			require('app').trigger('sketch:show', sketch.get('id'));
-			require('app').trigger('sketch:edit', sketch.get('id'));
+			require('App').trigger('sketch:show', sketch.get('id'));
+			require('App').trigger('sketch:edit', sketch.get('id'));
 		});
 	}
 
@@ -37,7 +37,7 @@ class SketchController {
 	 * @returns {undefined}
 	 */
 	public loadAll() {
-		var app = require('app');
+		var app = require('App');
 		app.sketches = new SketchCollection();
 		app.sketchList = new SketchList({
 			collection: app.sketches,
@@ -56,14 +56,14 @@ class SketchController {
 	}
 
 	public show(id) {
-		var app = require('app');
+		var app = require('App');
 
-		require('app').View.get('content').show(new LoadingView());
+		require('App').View.get('content').show(new LoadingView());
 
 		var sketch = app.sketches.get(id);
 		var fetchingLines = sketch.get('lines').fetch();
 		fetchingLines.done(function(data) {
-			require('app').View.get('content').show(new SketchCanvas({
+			require('App').View.get('content').show(new SketchCanvas({
 				sketch: app.sketches.get(id)
 			}));
 		});
@@ -72,14 +72,14 @@ class SketchController {
 	}
 
 	public update(id, data) {
-		var sketches = require('app').sketches;
+		var sketches = require('App').sketches;
 		var sketch = sketches.get(id);
 		sketch.set('title', data.title);
 		sketch.save();
 	}
 
 	public destroy(id) {
-		var sketches = require('app').sketches;
+		var sketches = require('App').sketches;
 		var sketch = sketches.get(id);
 		sketch.destroy();
 

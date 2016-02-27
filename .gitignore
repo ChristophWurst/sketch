@@ -2,4 +2,4 @@ build
 /js/vendor/
 nbproject
 
-*/**.js
+**/*.js

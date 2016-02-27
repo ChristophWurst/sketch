@@ -1,3 +1,5 @@
+/// <reference path="../typings/browser/ambient/backbone/backbone.d.ts" />
+
 /**
  * ownCloud - Sketch
  *
@@ -8,8 +10,7 @@
  * @copyright Christoph Wurst 2015
  */
 
-import Backbone = require('backbone');
-import OC = require('OC');
+//import Backbone = require('backbone');
 import PointCollection = require('model/Point');
 
 class Line extends Backbone.Model {

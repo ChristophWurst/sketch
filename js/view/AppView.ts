@@ -1,3 +1,5 @@
+///<reference path="../typings/browser.d.ts"/>
+
 /**
  * ownCloud - Sketch
  *
@@ -9,12 +11,12 @@
  */
 
 import $ = require('jquery');
-import Marionette = require('marionette');
-import App = require('app');
+import Marionette = require('backbone.marionette');
+import App = require('App');
 
 class AppView extends Marionette.RegionManager {
 	
-	public regions: {
+	public regions = {
 		content: '#app-content-wrapper'
 	}
 	

@@ -1,3 +1,5 @@
+///<reference path="../typings/browser.d.ts"/>
+
 /**
  * ownCloud - Sketch
  *
@@ -8,9 +10,9 @@
  * @copyright Christoph Wurst 2015
  */
 
-import Backbone = require('backbone');
+import Backbone = require('bbackbone');
 import OC = require('OC');
-import LineCollection = require('model/line').Collection;
+import LineCollection = require('collection/LineCollection');
 
 class Sketch extends Backbone.Model {
 	/*defaults: {

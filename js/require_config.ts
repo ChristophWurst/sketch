@@ -1,4 +1,4 @@
-/* global requirejs */
+///<reference path="./typings/browser.d.ts"/>
 
 /**
  * ownCloud - Sketch
@@ -7,25 +7,21 @@
  * later. See the COPYING file.
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @copyright Christoph Wurst 2015
+ * @copyright Christoph Wurst 2016
  */
 
-(function() {
-	'use strict';
+require.config({
+	baseUrl: './../../../apps/sketch/js',
+	paths: {
+		/**
+		 * Libraries
+		 */
+		backbone: 'vendor/backbone/backbone',
+		marionette: 'vendor/backbone.marionette/lib/backbone.marionette',
+		underscore: 'vendor/underscore/underscore'
+	}
+});
 
-	requirejs.config({
-		baseUrl: './../../../apps/sketch/js',
-		paths: {
-			/**
-			 * Libraries
-			 */
-			backbone: 'vendor/backbone/backbone',
-			marionette: 'vendor/backbone.marionette/lib/backbone.marionette',
-			underscore: 'vendor/underscore/underscore'
-		}
-	});
-
-	require([
-		'start'
-	]);
-})();
+require([
+	'start'
+]);

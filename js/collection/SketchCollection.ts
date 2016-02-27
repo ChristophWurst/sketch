@@ -10,10 +10,10 @@
 
 import Backbone = require('backbone');
 import OC = require('OC');
-import SketchModel = require('model/SketchModel');
+import SketchModel = require('model/Sketch');
 
 class SketchCollection extends Backbone.Collection<SketchModel> {
-	public url: OC.generateUrl('apps/sketch/sketches');
+	public url = OC.generateUrl('apps/sketch/sketches');
 }
 
 export = SketchCollection;

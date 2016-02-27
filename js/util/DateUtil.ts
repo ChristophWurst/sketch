@@ -8,8 +8,8 @@
  * @copyright Christoph Wurst 2015
  */
 
-
 class DateUtil {
+
 	public now() {
 		var now = new Date();
 		var year = now.getFullYear();
@@ -21,6 +21,7 @@ class DateUtil {
 		return [year, month, day].join('-')
 			+ ' ' + [hour, minutes].join(':');
 	}
+
 }
 
 export = DateUtil;
