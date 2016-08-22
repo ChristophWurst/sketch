@@ -7,7 +7,8 @@
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ChristophWurst/sketch?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 ## Dependencies
-* owncloud >= 8.1
+* Nextcloud 10 or 11
+* ownCloud 9.1 or 9.2
 * PHP >= 5.5
 
 ## Supported Browsers
