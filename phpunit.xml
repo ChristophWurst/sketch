@@ -7,6 +7,9 @@
 	<filter>
 		<whitelist processUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">./</directory>
+			<exclude>
+				<directory>./templates</directory>
+			</exclude>
 		</whitelist>
 	</filter>
 	<logging>
