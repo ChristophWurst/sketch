@@ -40,7 +40,7 @@ install:
   - cd server/apps/sketch
 
   # Install bower & deps
-  - npm intall -g bower
+  - npm install -g bower
   - bower install
 
 before_script:
