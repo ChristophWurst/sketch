@@ -5,45 +5,61 @@ php:
   - 5.6
   - 7
 
+addons:
+  apt:
+    packages:
+    - mysql-server-5.6
+    - mysql-client-core-5.6
+    - mysql-client-5.6
+
+services:
+  - postgresql
+
 env:
   - DB=sqlite BRANCH=master
   - DB=mysql BRANCH=master
 
-addons:
-  apt:
-    packages:
-      - python3
-      - python3-jinja2
-      - python3-setuptools
-      - python3-pip
+cache:
+  directories:
+  - "$HOME/.cache/bower"
+
+before_install:
+  - php --info
+
+  # Set up DB
+  - if [[ "$DB" == 'pgsql' ]]; then createuser -U travis -s oc_autotest; fi
+  - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e 'create database oc_autotest;'; fi
+  - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e "CREATE USER 'oc_autotest'@'localhost' IDENTIFIED BY '';"; fi
+  - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e "GRANT ALL ON oc_autotest.* TO 'oc_autotest'@'localhost';"; fi
+
+  - cd ..
+  - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b $CORE_BRANCH server
+  - mv sketch server/apps/
 
 install:
-  # Env info for debugging CI errors
-  - python3 --version
-  - pip --version
-  # install ocdev
-  - easy_install3 --user ocdev
-  # set up postgresql
-  - createuser -U travis -s oc_autotest
-  # set up mysql
-  - mysql -e 'create database oc_autotest;'
-  - mysql -u root -e "CREATE USER 'oc_autotest'@'localhost';"
-  - mysql -u root -e "grant all on oc_autotest.* to 'oc_autotest'@'localhost';"
-  # install owncloud
-  - cd ..
-  - /home/travis/.local/bin/ocdev setup core --dir owncloud --branch $BRANCH --no-history
-  - cd owncloud
-  - ocdev ci $DB
-  # enable sketch
-  - mv ../sketch apps/
-  - php -f console.php app:enable sketch
+  # Set up core
+  - php -f server/occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database $DB --database-pass=''
+
+  # Set up app
+  - php -f server/occ app:enable sketch
+
+  - cd server/apps/sketch
+
+  # Install bower & deps
+  - npm intall -g bower
+  - bower install
 
 before_script:
   - cd apps/sketch
 
 script:
+  # Check PHP syntax errors
+  - find . -name \*.php -not -path './vendor/*' -exec php -l "{}" \;
+
+  # Run PHP tests
   - phpunit -c phpunit.xml
   - phpunit -c phpunit.integration.xml
-  # send coverage report
+
+  # Send coverage report
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover clover.xml
