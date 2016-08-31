@@ -1,2 +1,16 @@
+checks:
+    php:
+        code_rating: true
+
+filter:
+    excluded_paths:
+        - 'vendor/*'
+
+imports:
+    - javascript
+    - php
+
 tools:
-  external_code_coverage: true
+    external_code_coverage:
+        runs: 2
+        timeout: 3600
