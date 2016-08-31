@@ -27,7 +27,7 @@ before_install:
   - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e "GRANT ALL ON oc_autotest.* TO 'oc_autotest'@'localhost';"; fi
 
   - cd ..
-  - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b $CORE_BRANCH server
+  - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b $BRANCH server
   - mv sketch server/apps/
 
 install:
