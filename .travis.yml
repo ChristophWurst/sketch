@@ -43,9 +43,6 @@ install:
   - npm install -g bower
   - bower install
 
-before_script:
-  - cd apps/sketch
-
 script:
   # Check PHP syntax errors
   - find . -name \*.php -not -path './vendor/*' -exec php -l "{}" \;
