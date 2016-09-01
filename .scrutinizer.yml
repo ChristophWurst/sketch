@@ -5,6 +5,7 @@ checks:
 filter:
     excluded_paths:
         - 'vendor/*'
+        - 'tests/*'
 
 imports:
     - javascript
