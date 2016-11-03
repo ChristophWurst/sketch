@@ -4,7 +4,6 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/ChristophWurst/sketch/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/ChristophWurst/sketch/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ChristophWurst/sketch/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/ChristophWurst/sketch/?branch=master)
 [![Dependency Status](https://www.versioneye.com/user/projects/56cf639a6b21e500355b1350/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56cf639a6b21e500355b1350)
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ChristophWurst/sketch?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 ## Dependencies
 * Nextcloud 10 or 11
