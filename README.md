@@ -6,9 +6,8 @@
 [![Dependency Status](https://www.versioneye.com/user/projects/56cf639a6b21e500355b1350/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56cf639a6b21e500355b1350)
 
 ## Dependencies
-* Nextcloud 10 or 11
-* ownCloud 9.1 or 9.2
-* PHP >= 5.5
+* Nextcloud 11
+* PHP >= 5.6
 
 ## Supported Browsers
 * Newest Firefox (Desktop, Android)
