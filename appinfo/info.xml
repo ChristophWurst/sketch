@@ -15,10 +15,9 @@
 	<repository type="git">https://github.com/ChristophWurst/sketch.git</repository>
 
 	<dependencies>
-		<php min-version="5.5" max-version="7.0" />
+		<php min-version="5.6" max-version="7.0" />
 		<database>sqlite</database>
 		<database>mysql</database>
-		<owncloud min-version="9.1" max-version="9.2" />
-		<nextcloud min-version="10" max-version="11" />
+		<nextcloud min-version="11" max-version="11" />
 	</dependencies>
 </info>
