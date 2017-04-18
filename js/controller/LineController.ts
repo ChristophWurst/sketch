@@ -8,10 +8,8 @@
  * @copyright Christoph Wurst 2015
  */
 
-define(function(require) {
-	'use strict';
-
-	function create(sketchId, line) {
+class LineController {
+	public create(sketchId: Number, line: any) {
 		var sketches = require('app').sketches;
 		var sketch = sketches.get(sketchId);
 		var savingLine = line.save();
@@ -19,8 +17,6 @@ define(function(require) {
 			sketch.get('lines').add(line);
 		});
 	}
+}
 
-	return {
-		create: create
-	};
-});
+export = LineController;

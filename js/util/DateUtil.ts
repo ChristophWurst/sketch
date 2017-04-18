@@ -8,10 +8,9 @@
  * @copyright Christoph Wurst 2015
  */
 
-define(function() {
-	'use strict';
+class DateUtil {
 
-	function now() {
+	public now() {
 		var now = new Date();
 		var year = now.getFullYear();
 		var month = now.getMonth() + 1;
@@ -23,7 +22,6 @@ define(function() {
 			+ ' ' + [hour, minutes].join(':');
 	}
 
-	return {
-		now: now
-	};
-});
+}
+
+export = DateUtil;

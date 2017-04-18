@@ -8,28 +8,26 @@
  * @copyright Christoph Wurst 2015
  */
 
-define(function(require) {
-	'use strict';
+import DateUtil = require('util/DateUtil');
+import Sketch = require('model/Sketch');
+import SketchCollection = require('collection/SketchCollection');
+import SketchList = require('view/SketchList');
+import SketchCanvas = require('view/SketchCanvas');
+import LoadingView = require('view/LoadingView');
 
-	var DateUtil = require('util/dateutil');
-	var Sketch = require('model/sketch').Model;
-	var SketchCollection = require('model/sketch').Collection;
-	var SketchList = require('view/sketchlist');
-	var SketchCanvas = require('view/sketchcanvas');
-	var LoadingView = require('view/loadingview');
-
-	function add() {
+class SketchController {
+	public add() {
 		var sketch = new Sketch({
 			title: DateUtil.now()
 		});
 		// New sketch should be shown at the top of the sketch list
-		require('app').sketches.add(sketch, {
+		require('App').sketches.add(sketch, {
 			at: 0
 		});
 		var savingSketch = sketch.save();
 		savingSketch.done(function() {
-			require('app').trigger('sketch:show', sketch.get('id'));
-			require('app').trigger('sketch:edit', sketch.get('id'));
+			require('App').trigger('sketch:show', sketch.get('id'));
+			require('App').trigger('sketch:edit', sketch.get('id'));
 		});
 	}
 
@@ -38,8 +36,8 @@ define(function(require) {
 	 *
 	 * @returns {undefined}
 	 */
-	function loadAll() {
-		var app = require('app');
+	public loadAll() {
+		var app = require('App');
 		app.sketches = new SketchCollection();
 		app.sketchList = new SketchList({
 			collection: app.sketches,
@@ -57,15 +55,15 @@ define(function(require) {
 		});
 	}
 
-	function show(id) {
-		var app = require('app');
+	public show(id) {
+		var app = require('App');
 
-		require('app').View.get('content').show(new LoadingView());
+		require('App').View.get('content').show(new LoadingView());
 
 		var sketch = app.sketches.get(id);
 		var fetchingLines = sketch.get('lines').fetch();
 		fetchingLines.done(function(data) {
-			require('app').View.get('content').show(new SketchCanvas({
+			require('App').View.get('content').show(new SketchCanvas({
 				sketch: app.sketches.get(id)
 			}));
 		});
@@ -73,15 +71,15 @@ define(function(require) {
 		app.trigger('sketch:active', id);
 	}
 
-	function update(id, data) {
-		var sketches = require('app').sketches;
+	public update(id, data) {
+		var sketches = require('App').sketches;
 		var sketch = sketches.get(id);
 		sketch.set('title', data.title);
 		sketch.save();
 	}
 
-	function destroy(id) {
-		var sketches = require('app').sketches;
+	public destroy(id) {
+		var sketches = require('App').sketches;
 		var sketch = sketches.get(id);
 		sketch.destroy();
 
@@ -89,12 +87,6 @@ define(function(require) {
 			show(sketches.at(0).get('id'));
 		}
 	}
+}
 
-	return {
-		add: add,
-		loadAll: loadAll,
-		show: show,
-		update: update,
-		destroy: destroy
-	};
-});
+export = SketchController;

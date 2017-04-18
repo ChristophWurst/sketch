@@ -10,9 +10,19 @@
  */
 ?>
 <script id="sketch-canvas-template" type="text/html">
-	<canvas id="sketch-background" width="100" height="100">
-		<p>Your browser doesn't support canvas.</p>
-	</canvas>
-	<canvas id="sketch-canvas" width="100" height="100">
-	</canvas>
+	<div id="canvas-tool-chooser">
+		<a href="#" class="button pencil">
+			<span class="icon icon-rename"></span>
+		</a>
+		<a href="#" class="button active erasor">
+			<span class="icon icon-delete"></span>
+		</a>
+	</div>
+	<div id="canvas-container">
+		<canvas id="sketch-background" width="100" height="100">
+			<p>Your browser doesn't support canvas.</p>
+		</canvas>
+		<canvas id="sketch-canvas" width="100" height="100">
+		</canvas>
+	</div>
 </script>

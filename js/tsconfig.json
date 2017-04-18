@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"target": "ES5",
+		"module": "amd",
+		"sourceMap": false
+	},
+	"exclude": [
+		"vendor",
+		"typings/main.d.ts",
+		"typings/main"
+	]
+}

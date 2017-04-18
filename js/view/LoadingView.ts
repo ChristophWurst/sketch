@@ -8,13 +8,11 @@
  * @copyright Christoph Wurst 2015
  */
 
-define(function(require) {
-	'use strict';
+import Marionette = require('marionette');
 
-	var Marionette = require('marionette');
+class LoadingView extends Marionette.ItemView {
+	public template = false;
+	public className = 'loading-view icon-loading';
+}
 
-	return Marionette.ItemView.extend({
-		template: false,
-		className: 'loading-view icon-loading'
-	});
-});
+export = LoadingView;
