@@ -123,8 +123,8 @@ define(function(require) {
 				canvas.canvas.width = 1;
 				canvas.canvas.height = 1;
 
-				canvas.canvas.width = that.$el.innerWidth();
-				canvas.canvas.height = that.$el.innerHeight();
+				canvas.canvas.width = that.$('#canvas-container').innerWidth();
+				canvas.canvas.height = that.$('#canvas-container').innerHeight();
 			});
 
 			this.reDrawBackground();
